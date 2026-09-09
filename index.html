@@ -1,2296 +1,1224 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-               maximum-scale=1.0, user-scalable=no">
-
-<meta name="robots" content="noindex,nofollow">
-
-<title>漢字の組み立てマスター</title>
-
-<style>
-
-* {
-  box-sizing: border-box;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-}
-
-body {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Hiragino Kaku Gothic ProN",
-    "Yu Gothic",
-    "Meiryo",
-    sans-serif;
-
-  background:
-    linear-gradient(135deg,#f0fdf4,#ecfeff);
-
-  color: #14532d;
-}
-
-/* =========================
-   全体
-========================= */
-
-.app {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 14px;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 14px;
-}
-
-.title {
-  font-size: clamp(22px,5vw,36px);
-  font-weight: 900;
-  color: #15803d;
-  margin: 4px 0;
-}
-
-.subtitle {
-  font-size: clamp(13px,3vw,18px);
-  font-weight: bold;
-  color: #64748b;
-}
-
-/* =========================
-   ホーム
-========================= */
-
-.home {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 14px;
-}
-
-.home-card {
-  border: none;
-  border-radius: 20px;
-  padding: 24px 12px;
-
-  background: white;
-
-  box-shadow:
-    0 5px 0 #bbf7d0,
-    0 8px 18px rgba(0,0,0,.08);
-
-  cursor: pointer;
-}
-
-.home-card:active {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 #bbf7d0;
-}
-
-.home-icon {
-  font-size: 42px;
-  margin-bottom: 8px;
-}
-
-.home-title {
-  font-size: clamp(17px,4vw,24px);
-  font-weight: 900;
-  color: #166534;
-}
-
-.home-desc {
-  font-size: 13px;
-  color: #64748b;
-  margin-top: 6px;
-}
-
-/* =========================
-   学習画面
-========================= */
-
-.screen {
-  display: none;
-}
-
-.screen.active {
-  display: block;
-}
-
-.panel {
-  background: white;
-  border-radius: 22px;
-  padding: clamp(15px,3vw,25px);
-
-  box-shadow:
-    0 6px 20px rgba(0,0,0,.08);
-
-  border: 2px solid #bbf7d0;
-}
-
-.screen-title {
-  text-align: center;
-  font-size: clamp(21px,5vw,30px);
-  font-weight: 900;
-  color: #15803d;
-  margin-bottom: 15px;
-}
-
-.instruction {
-  text-align: center;
-  font-size: clamp(15px,3.5vw,19px);
-  font-weight: bold;
-  color: #475569;
-  margin-bottom: 15px;
-}
-
-/* =========================
-   ボタン
-========================= */
-
-.btn {
-  border: none;
-  border-radius: 14px;
-  padding: 14px 18px;
-
-  font-size: clamp(16px,4vw,20px);
-  font-weight: 900;
-
-  cursor: pointer;
-}
-
-.btn-green {
-  background: #22c55e;
-  color: white;
-  box-shadow: 0 4px 0 #15803d;
-}
-
-.btn-blue {
-  background: #0ea5e9;
-  color: white;
-  box-shadow: 0 4px 0 #0369a1;
-}
-
-.btn-yellow {
-  background: #facc15;
-  color: #713f12;
-  box-shadow: 0 4px 0 #ca8a04;
-}
-
-.btn-gray {
-  background: #e2e8f0;
-  color: #334155;
-}
-
-.btn:active {
-  transform: translateY(3px);
-  box-shadow: none;
-}
-
-.back-btn {
-  width: 100%;
-  margin-top: 15px;
-}
-
-/* =========================
-   組み立てを知ろう
-========================= */
-
-.structure-grid {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 12px;
-}
-
-.structure-card {
-  padding: 18px 10px;
-  border-radius: 16px;
-  background: #f0fdf4;
-  border: 2px solid #86efac;
-  text-align: center;
-}
-
-.structure-name {
-  font-size: 23px;
-  font-weight: 900;
-  color: #15803d;
-}
-
-.structure-position {
-  font-size: 15px;
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-.structure-example {
-  font-size: 34px;
-  font-weight: 900;
-  margin-top: 8px;
-}
-
-.structure-explain {
-  font-size: 13px;
-  color: #64748b;
-  margin-top: 5px;
-}
-
-/* =========================
-   カードパズル
-========================= */
-
-.puzzle-question {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.puzzle-area {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  margin: 18px 0;
-}
-
-.slot {
-  width: clamp(70px,18vw,110px);
-  height: clamp(80px,20vw,120px);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border: 4px dashed #86efac;
-  border-radius: 18px;
-
-  background: #f7fee7;
-
-  font-size: clamp(36px,9vw,60px);
-  font-weight: 900;
-}
-
-.slot.filled {
-  border-style: solid;
-  border-color: #22c55e;
-  background: #dcfce7;
-}
-
-.plus {
-  font-size: 30px;
-  font-weight: 900;
-}
-
-.result {
-  min-height: 110px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  background: #f0fdf4;
-
-  border: 2px solid #86efac;
-  border-radius: 18px;
-
-  margin: 15px 0;
-}
-
-.result-kanji {
-  font-size: 65px;
-  font-weight: 900;
-  line-height: 1;
-}
-
-.result-good {
-  color: #16a34a;
-  font-size: 18px;
-  font-weight: 900;
-  margin-top: 7px;
-}
-
-.result-bad {
-  color: #dc2626;
-  font-size: 17px;
-  font-weight: 900;
-}
-
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 9px;
-}
-
-.card {
-  width: 58px;
-  height: 64px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background: white;
-
-  border: 2px solid #4ade80;
-  border-radius: 12px;
-
-  font-size: 27px;
-  font-weight: 900;
-
-  box-shadow: 0 3px 0 #bbf7d0;
-
-  cursor: pointer;
-}
-
-.card:active {
-  transform: translateY(3px);
-  box-shadow: none;
-}
-
-.card.selected {
-  background: #fef08a;
-  border-color: #eab308;
-}
-
-/* =========================
-   選択問題
-========================= */
-
-.question-box {
-  text-align: center;
-  margin: 15px 0 20px;
-}
-
-.question-kanji {
-  font-size: clamp(65px,18vw,110px);
-  font-weight: 900;
-  color: #166534;
-  line-height: 1;
-}
-
-.question-text {
-  font-size: clamp(17px,4vw,23px);
-  font-weight: 900;
-  margin-top: 15px;
-}
-
-.options {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 11px;
-}
-
-.option {
-  border: 3px solid #86efac;
-  background: white;
-
-  border-radius: 15px;
-
-  padding: 14px;
-
-  font-size: clamp(17px,4vw,21px);
-  font-weight: 900;
-
-  color: #166534;
-
-  cursor: pointer;
-}
-
-.option:active {
-  background: #dcfce7;
-}
-
-.option.correct {
-  background: #dcfce7;
-  border-color: #16a34a;
-}
-
-.option.wrong {
-  background: #fee2e2;
-  border-color: #ef4444;
-}
-
-.feedback {
-  min-height: 70px;
-
-  margin-top: 15px;
-
-  border-radius: 15px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  text-align: center;
-
-  font-size: 19px;
-  font-weight: 900;
-}
-
-/* =========================
-   意味クイズ
-========================= */
-
-.meaning-symbol {
-  text-align: center;
-
-  font-size: 75px;
-  font-weight: 900;
-
-  margin: 10px 0;
-
-  color: #166534;
-}
-
-/* =========================
-   チャレンジ
-========================= */
-
-.challenge-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  margin-bottom: 10px;
-
-  font-weight: 900;
-  font-size: 17px;
-}
-
-.score {
-  color: #15803d;
-}
-
-.challenge-progress {
-  height: 12px;
-  background: #e2e8f0;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-bottom: 18px;
-}
-
-.challenge-progress-inner {
-  height: 100%;
-  width: 0%;
-  background: #22c55e;
-  transition: width .3s;
-}
-
-.final-score {
-  text-align: center;
-  padding: 25px 10px;
-}
-
-.final-score-number {
-  font-size: 70px;
-  font-weight: 900;
-  color: #15803d;
-}
-
-.final-score-text {
-  font-size: 22px;
-  font-weight: 900;
-}
-
-.review-title {
-  text-align: center;
-  font-size: 20px;
-  font-weight: 900;
-  margin: 20px 0 10px;
-}
-
-.review-item {
-  background: #fef2f2;
-  border: 2px solid #fecaca;
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-/* =========================
-   説明
-========================= */
-
-.explanation {
-  margin-top: 14px;
-  padding: 14px;
-
-  border-radius: 15px;
-
-  background: #eff6ff;
-  border: 2px solid #bfdbfe;
-
-  color: #1e3a8a;
-
-  font-size: 15px;
-  font-weight: bold;
-
-  line-height: 1.6;
-}
-
-/* =========================
-   スマホ横向き
-========================= */
-
-@media (orientation: landscape) and (max-height: 600px) {
-
-  .app {
-    max-width: 1000px;
-    padding: 8px 15px;
-  }
-
-  .header {
-    margin-bottom: 6px;
-  }
-
-  .title {
-    font-size: 24px;
-  }
-
-  .home {
-    grid-template-columns: repeat(4,1fr);
-    gap: 10px;
-  }
-
-  .home-card {
-    padding: 14px 8px;
-  }
-
-  .home-icon {
-    font-size: 30px;
-  }
-
-  .home-title {
-    font-size: 16px;
-  }
-
-  .home-desc {
-    display: none;
-  }
-
-  .panel {
-    padding: 12px;
-  }
-}
-
-/* =========================
-   タブレット
-========================= */
-
-@media (min-width:700px) {
-
-  .home {
-    grid-template-columns: repeat(4,1fr);
-  }
-
-  .structure-grid {
-    grid-template-columns: repeat(3,1fr);
-  }
-
-  .options {
-    grid-template-columns: repeat(2,1fr);
-  }
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="robots" content="noindex,nofollow">
+
+  <title>漢字の組み立て マスター</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    body {
+      font-family:
+        'Hiragino Kaku Gothic ProN',
+        'Yu Gothic',
+        'メイリオ',
+        sans-serif;
+
+      background-color: #f0fdf4;
+      color: #14532d;
+
+      margin: 0;
+      padding: 10px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: clamp(18px, 4.5vw, 24px);
+      color: #15803d;
+      margin: 5px 0 10px 0;
+      text-align: center;
+    }
+
+    /* =========================
+       タブ
+    ========================= */
+
+    .tab-container {
+      display: flex;
+      gap: 10px;
+
+      width: 100%;
+      max-width: 480px;
+
+      margin-bottom: 12px;
+    }
+
+    .tab-btn {
+      flex: 1;
+
+      padding: 10px;
+
+      font-size: 15px;
+      font-weight: bold;
+
+      border: 2px solid #22c55e;
+      border-radius: 10px;
+
+      background-color: #fff;
+      color: #15803d;
+
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background-color: #22c55e;
+      color: #fff;
+    }
+
+    /* =========================
+       パネル
+    ========================= */
+
+    .panel {
+      display: none;
+
+      width: 100%;
+      max-width: 480px;
+
+      background: #fff;
+
+      padding: 15px;
+
+      border-radius: 16px;
+
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+      border: 2px solid #bbf7d0;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    /* =========================
+       モード1
+    ========================= */
+
+    .puzzle-stage {
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      gap: 10px;
+
+      margin: 15px 0;
+    }
+
+    .card-slot {
+      width: 70px;
+      height: 80px;
+
+      border: 3px dashed #86efac;
+      border-radius: 10px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 32px;
+      font-weight: bold;
+
+      background: #f7fee7;
+      color: #15803d;
+    }
+
+    .card-slot.filled {
+      border-style: solid;
+      border-color: #22c55e;
+
+      background: #dcfce7;
+    }
+
+    .plus {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    /* =========================
+       結果
+    ========================= */
+
+    .result-box {
+      min-height: 80px;
+
+      background: #f0fdf4;
+
+      border-radius: 12px;
+
+      display: flex;
+      flex-direction: column;
+
+      justify-content: center;
+      align-items: center;
+
+      margin-bottom: 15px;
+
+      border: 2px solid #86efac;
+    }
+
+    .result-kanji {
+      font-size: 48px;
+      font-weight: bold;
+
+      color: #166534;
+
+      line-height: 1;
+    }
+
+    .result-desc {
+      font-size: 14px;
+      font-weight: bold;
+
+      color: #15803d;
+
+      margin-top: 5px;
+    }
+
+    /* =========================
+       カード
+    ========================= */
+
+    .card-list {
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+      justify-content: center;
+    }
+
+    .card-item {
+      width: 55px;
+      height: 60px;
+
+      background: #fff;
+
+      border: 2px solid #4ade80;
+
+      border-radius: 8px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 24px;
+      font-weight: bold;
+
+      cursor: pointer;
+
+      box-shadow: 0 3px 0 #bbf7d0;
+    }
+
+    .card-item:active {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+
+    .card-item.selected {
+      background-color: #fef08a;
+      border-color: #eab308;
+    }
+
+    /* =========================
+       選択キャンセル
+    ========================= */
+
+    .cancel-btn {
+      width: 100%;
+
+      padding: 10px;
+
+      margin-top: 10px;
+
+      font-size: 15px;
+      font-weight: bold;
+
+      border: 2px solid #94a3b8;
+
+      border-radius: 10px;
+
+      background: #f8fafc;
+
+      color: #475569;
+
+      cursor: pointer;
+    }
+
+    .cancel-btn:active {
+      background: #e2e8f0;
+      transform: translateY(1px);
+    }
+
+    /* =========================
+       クイズ
+    ========================= */
+
+    .quiz-q {
+      font-size: 17px;
+      font-weight: bold;
+
+      color: #166534;
+
+      margin-bottom: 12px;
+
+      line-height: 1.4;
+    }
+
+    .quiz-opts {
+      display: flex;
+      flex-direction: column;
+
+      gap: 10px;
+    }
+
+    .quiz-opt-btn {
+      padding: 12px;
+
+      font-size: 15px;
+      font-weight: bold;
+
+      border: 2px solid #86efac;
+
+      border-radius: 10px;
+
+      background: #fff;
+
+      color: #15803d;
+
+      text-align: left;
+
+      cursor: pointer;
+    }
+
+    .quiz-opt-btn:active {
+      background-color: #dcfce7;
+    }
+
+    /* =========================
+       メインボタン
+    ========================= */
+
+    .btn-main {
+      width: 100%;
+
+      padding: 12px;
+
+      font-size: 16px;
+      font-weight: bold;
+
+      border: none;
+
+      border-radius: 10px;
+
+      background: #22c55e;
+
+      color: white;
+
+      margin-top: 10px;
+
+      cursor: pointer;
+
+      box-shadow: 0 4px 0 #15803d;
+    }
+
+    .btn-main:active {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+
+    .btn-main:disabled {
+      background: #cbd5e1;
+
+      box-shadow: none;
+
+      cursor: not-allowed;
+    }
+
+    /* =========================
+       スマホ
+    ========================= */
+
+    @media (max-width: 380px) {
+
+      .card-item {
+        width: 50px;
+        height: 55px;
+
+        font-size: 22px;
+      }
+
+      .card-slot {
+        width: 65px;
+        height: 75px;
+
+        font-size: 30px;
+      }
+    }
+  </style>
 </head>
+
 
 <body>
 
-<div class="app">
-
-<!-- =========================
-     ヘッダー
-========================= -->
-
-<div class="header">
-
-  <div class="title">
-    📖 漢字の組み立てマスター
-  </div>
-
-  <div class="subtitle">
-    3年生・国語
-  </div>
-
-</div>
+  <h1>📖 漢字の組み立て（３年国語）</h1>
 
 
-<!-- =========================
-     ホーム画面
-========================= -->
+  <!-- =========================
+       タブ
+  ========================= -->
 
-<div class="screen active" id="home-screen">
+  <div class="tab-container">
 
-  <div class="home">
-
-    <button class="home-card"
-            onclick="openScreen('structure-screen')">
-
-      <div class="home-icon">🧠</div>
-
-      <div class="home-title">
-        組み立てを知ろう
-      </div>
-
-      <div class="home-desc">
-        へん・つくり・かんむりなど
-      </div>
-
+    <button
+      class="tab-btn active"
+      id="tab1"
+      onclick="switchTab(1)">
+      ① カード合体パズル
     </button>
 
-
-    <button class="home-card"
-            onclick="openPuzzle()">
-
-      <div class="home-icon">🧩</div>
-
-      <div class="home-title">
-        漢字を組み立てよう
-      </div>
-
-      <div class="home-desc">
-        パーツを組み合わせよう
-      </div>
-
-    </button>
-
-
-    <button class="home-card"
-            onclick="openPartQuiz()">
-
-      <div class="home-icon">🔍</div>
-
-      <div class="home-title">
-        どの部分かな？
-      </div>
-
-      <div class="home-desc">
-        へん・つくりを当てよう
-      </div>
-
-    </button>
-
-
-    <button class="home-card"
-            onclick="openMeaningQuiz()">
-
-      <div class="home-icon">💡</div>
-
-      <div class="home-title">
-        どんな意味？
-      </div>
-
-      <div class="home-desc">
-        部分の意味を考えよう
-      </div>
-
-    </button>
-
-
-    <button class="home-card"
-            onclick="startChallenge()">
-
-      <div class="home-icon">🎮</div>
-
-      <div class="home-title">
-        10問チャレンジ
-      </div>
-
-      <div class="home-desc">
-        力だめしをしよう！
-      </div>
-
+    <button
+      class="tab-btn"
+      id="tab2"
+      onclick="switchTab(2)">
+      ② 部首の意味クイズ
     </button>
 
   </div>
 
-</div>
 
+  <!-- =========================
+       パズルモード
+  ========================= -->
 
-<!-- =========================
-     組み立てを知ろう
-========================= -->
+  <div
+    class="panel active"
+    id="panel1">
 
-<div class="screen" id="structure-screen">
-
-  <div class="panel">
-
-    <div class="screen-title">
-      🧠 漢字の組み立てを知ろう
+    <div
+      style="
+        font-weight:bold;
+        font-size:14px;
+        color:#15803d;
+      ">
+      カードを２つえらんで 漢字をつくろう！
     </div>
 
-    <div class="instruction">
-      漢字は、いくつかの部分からできています。
-    </div>
 
-    <div class="structure-grid">
+    <!-- 選択部分 -->
 
-      <div class="structure-card">
+    <div class="puzzle-stage">
 
-        <div class="structure-name">
-          へん
-        </div>
-
-        <div class="structure-position">
-          左側
-        </div>
-
-        <div class="structure-example">
-          休
-        </div>
-
-        <div class="structure-explain">
-          「亻」がへん
-        </div>
-
+      <div
+        class="card-slot"
+        id="slot1">
+        ？
       </div>
 
-
-      <div class="structure-card">
-
-        <div class="structure-name">
-          つくり
-        </div>
-
-        <div class="structure-position">
-          右側
-        </div>
-
-        <div class="structure-example">
-          板
-        </div>
-
-        <div class="structure-explain">
-          「反」がつくり
-        </div>
-
+      <div class="plus">
+        ＋
       </div>
 
-
-      <div class="structure-card">
-
-        <div class="structure-name">
-          かんむり
-        </div>
-
-        <div class="structure-position">
-          上側
-        </div>
-
-        <div class="structure-example">
-          雲
-        </div>
-
-        <div class="structure-explain">
-          「雨」がかんむり
-        </div>
-
-      </div>
-
-
-      <div class="structure-card">
-
-        <div class="structure-name">
-          あし
-        </div>
-
-        <div class="structure-position">
-          下側
-        </div>
-
-        <div class="structure-example">
-          思
-        </div>
-
-        <div class="structure-explain">
-          「心」が下側
-        </div>
-
-      </div>
-
-
-      <div class="structure-card">
-
-        <div class="structure-name">
-          かまえ
-        </div>
-
-        <div class="structure-position">
-          外側から囲む
-        </div>
-
-        <div class="structure-example">
-          国
-        </div>
-
-        <div class="structure-explain">
-          「囗」が外側
-        </div>
-
-      </div>
-
-
-      <div class="structure-card">
-
-        <div class="structure-name">
-          にょう
-        </div>
-
-        <div class="structure-position">
-          左下を通る
-        </div>
-
-        <div class="structure-example">
-          道
-        </div>
-
-        <div class="structure-explain">
-          「辶」がにょう
-        </div>
-
+      <div
+        class="card-slot"
+        id="slot2">
+        ？
       </div>
 
     </div>
 
 
-    <div class="explanation">
+    <!-- 結果 -->
 
-      💡 ポイント<br>
-      漢字の「どこにある部分なのか」によって、
-      「へん」「つくり」「かんむり」など、
-      よび方が変わります。
+    <div
+      class="result-box"
+      id="result-box">
 
-    </div>
-
-
-    <button class="btn btn-gray back-btn"
-            onclick="goHome()">
-
-      🏠 もどる
-
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     パズル
-========================= -->
-
-<div class="screen" id="puzzle-screen">
-
-  <div class="panel">
-
-    <div class="screen-title">
-      🧩 漢字を組み立てよう
-    </div>
-
-    <div class="puzzle-question">
-      カードを２つえらんで、漢字をつくろう！
-    </div>
-
-
-    <div class="puzzle-area">
-
-      <div class="slot" id="slot1">？</div>
-
-      <div class="plus">＋</div>
-
-      <div class="slot" id="slot2">？</div>
-
-    </div>
-
-
-    <div class="result" id="puzzle-result">
-
-      <div style="font-weight:bold;color:#64748b;">
+      <div
+        style="
+          color:#64748b;
+          font-weight:bold;
+        ">
         カードをえらんでね
       </div>
 
     </div>
 
 
-    <div class="cards" id="cards"></div>
+    <!-- 合体 -->
 
-
-    <button class="btn btn-green"
-            id="combine-btn"
-            style="width:100%;margin-top:15px;"
-            onclick="combineCards()"
-            disabled>
-
-      ✨ がったいする！
-
+    <button
+      class="btn-main"
+      id="combine-btn"
+      onclick="checkCombine()"
+      disabled>
+      がったいする！
     </button>
 
 
-    <button class="btn btn-gray back-btn"
-            onclick="goHome()">
+    <!-- ★追加：選択キャンセル -->
 
-      🏠 もどる
+    <button
+      class="cancel-btn"
+      id="cancel-btn"
+      onclick="cancelSelection()">
+      ↩ 選択をキャンセル
+    </button>
 
+
+    <!-- カード一覧 -->
+
+    <div
+      style="
+        margin-top:15px;
+        font-size:13px;
+        font-weight:bold;
+        color:#166534;
+      ">
+      【カードのリスト】
+    </div>
+
+    <div
+      class="card-list"
+      id="card-list">
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       クイズモード
+  ========================= -->
+
+  <div
+    class="panel"
+    id="panel2">
+
+    <div
+      class="quiz-q"
+      id="quiz-q">
+      問題文
+    </div>
+
+    <div
+      class="quiz-opts"
+      id="quiz-opts">
+    </div>
+
+    <div
+      class="result-box"
+      id="quiz-result"
+      style="
+        margin-top:15px;
+        display:none;
+      ">
+    </div>
+
+    <button
+      class="btn-main"
+      id="quiz-next-btn"
+      onclick="nextQuiz()"
+      style="display:none;">
+      つぎの問題へ
     </button>
 
   </div>
 
-</div>
 
+  <script>
+
+    /* =========================================
+       パズルデータ
+    ========================================= */
+
+    const puzzleData = [
+
+      {
+        p1: '木',
+        p2: '反',
+        res: '板',
+        type: 'きへん（木に関係）'
+      },
+
+      {
+        p1: '氵',
+        p2: '也',
+        res: '池',
+        type: 'さんずい（水に関係）'
+      },
+
+      {
+        p1: '亻',
+        p2: '休',
+        res: '体',
+        type: 'にんべん（人の行動に関係）'
+      },
 
-<!-- =========================
-     部分クイズ
-========================= -->
+      {
+        p1: '禾',
+        p2: '火',
+        res: '秋',
+        type: 'のぎへん'
+      },
 
-<div class="screen" id="part-quiz-screen">
+      {
+        p1: '糸',
+        p2: '斗',
+        res: '料',
+        type: 'いとへん'
+      },
 
-  <div class="panel">
+      {
+        p1: '雨',
+        p2: 'ム',
+        res: '雲',
+        type: 'あめかんむり（天候に関係）'
+      },
 
-    <div class="screen-title">
-      🔍 どの部分かな？
-    </div>
+      {
+        p1: '竹',
+        p2: '毛',
+        res: '筆',
+        type: 'たけかんむり（竹の道具に関係）'
+      },
 
-    <div class="question-box">
+      {
+        p1: '門',
+        p2: '日',
+        res: '間',
+        type: 'もんがまえ（門や戸に関係）'
+      },
 
-      <div class="question-kanji"
-           id="part-kanji">
-      </div>
+      {
+        p1: '囗',
+        p2: '玉',
+        res: '国',
+        type: 'くにがまえ（かこむことに関係）'
+      },
 
-      <div class="question-text"
-           id="part-question">
-      </div>
+      {
+        /* ★ しんにょうは「辶」に統一 */
+        p1: '辶',
+        p2: '寺',
+        res: '道',
+        type: 'しんにょう（道や歩くことに関係）'
+      }
 
-    </div>
+    ];
 
-    <div class="options"
-         id="part-options">
-    </div>
 
-    <div class="feedback"
-         id="part-feedback">
-    </div>
+    /* =========================================
+       カード一覧
+    ========================================= */
 
-    <button class="btn btn-blue"
-            id="part-next"
-            style="width:100%;display:none;"
-            onclick="nextPartQuiz()">
+    const cardsPool = [
 
-      ➡ 次の問題
+      '木',
+      '反',
 
-    </button>
+      '氵',
+      '也',
 
-    <button class="btn btn-gray back-btn"
-            onclick="goHome()">
+      '亻',
+      '休',
 
-      🏠 もどる
+      '禾',
+      '火',
 
-    </button>
+      '糸',
+      '斗',
 
-  </div>
+      '雨',
+      'ム',
 
-</div>
+      '竹',
+      '毛',
 
+      '門',
+      '日',
 
-<!-- =========================
-     意味クイズ
-========================= -->
+      '囗',
+      '玉',
 
-<div class="screen" id="meaning-quiz-screen">
+      /* ★ 1点の「辶」 */
+      '辶',
 
-  <div class="panel">
+      '寺'
 
-    <div class="screen-title">
-      💡 どんな意味？
-    </div>
+    ];
 
-    <div class="question-box">
 
-      <div class="meaning-symbol"
-           id="meaning-symbol">
-      </div>
+    let sel1 = null;
+    let sel2 = null;
 
-      <div class="question-text"
-           id="meaning-question">
-      </div>
 
-    </div>
+    /* =========================================
+       パズル初期化
+    ========================================= */
 
-    <div class="options"
-         id="meaning-options">
-    </div>
+    function initPuzzle() {
 
-    <div class="feedback"
-         id="meaning-feedback">
-    </div>
+      sel1 = null;
+      sel2 = null;
 
-    <button class="btn btn-blue"
-            id="meaning-next"
-            style="width:100%;display:none;"
-            onclick="nextMeaningQuiz()">
 
-      ➡ 次の問題
+      document.getElementById('slot1').textContent = '？';
 
-    </button>
+      document.getElementById('slot2').textContent = '？';
 
-    <button class="btn btn-gray back-btn"
-            onclick="goHome()">
 
-      🏠 もどる
+      document
+        .getElementById('slot1')
+        .classList
+        .remove('filled');
 
-    </button>
+      document
+        .getElementById('slot2')
+        .classList
+        .remove('filled');
 
-  </div>
 
-</div>
+      document
+        .getElementById('combine-btn')
+        .disabled = true;
 
 
-<!-- =========================
-     10問チャレンジ
-========================= -->
+      const listContainer =
+        document.getElementById('card-list');
 
-<div class="screen" id="challenge-screen">
 
-  <div class="panel">
+      listContainer.innerHTML = '';
 
-    <div class="screen-title">
-      🎮 10問チャレンジ
-    </div>
 
+      cardsPool.forEach(char => {
 
-    <div class="challenge-header">
+        const item =
+          document.createElement('div');
 
-      <div id="challenge-count">
-        1 / 10
-      </div>
 
-      <div class="score"
-           id="challenge-score">
-        ⭐ 0問正解
-      </div>
+        item.className = 'card-item';
 
-    </div>
+        item.textContent = char;
 
 
-    <div class="challenge-progress">
+        item.onclick = () => {
 
-      <div class="challenge-progress-inner"
-           id="challenge-progress">
-      </div>
+          selectCard(char, item);
 
-    </div>
+        };
 
 
-    <div id="challenge-content"></div>
+        listContainer.appendChild(item);
 
-
-  </div>
-
-</div>
-
-
-</div>
-
-
-<script>
-
-/* =====================================================
-   漢字データ
-===================================================== */
-
-const puzzleData = [
-
-  {
-    p1:"木",
-    p2:"反",
-    kanji:"板",
-    name:"きへん",
-    position:"へん",
-    meaning:"木に関係する漢字が多い"
-  },
-
-  {
-    p1:"木",
-    p2:"主",
-    kanji:"柱",
-    name:"きへん",
-    position:"へん",
-    meaning:"木に関係する漢字が多い"
-  },
-
-  {
-    p1:"木",
-    p2:"寸",
-    kanji:"村",
-    name:"きへん",
-    position:"へん",
-    meaning:"木に関係する漢字が多い"
-  },
-
-  {
-    p1:"氵",
-    p2:"也",
-    kanji:"池",
-    name:"さんずい",
-    position:"へん",
-    meaning:"水や液体に関係する漢字が多い"
-  },
-
-  {
-    p1:"氵",
-    p2:"毎",
-    kanji:"海",
-    name:"さんずい",
-    position:"へん",
-    meaning:"水や液体に関係する漢字が多い"
-  },
-
-  {
-    p1:"氵",
-    p2:"由",
-    kanji:"油",
-    name:"さんずい",
-    position:"へん",
-    meaning:"水や液体に関係する漢字が多い"
-  },
-
-  {
-    p1:"亻",
-    p2:"木",
-    kanji:"休",
-    name:"にんべん",
-    position:"へん",
-    meaning:"人に関係する漢字が多い"
-  },
-
-  {
-    p1:"亻",
-    p2:"本",
-    kanji:"体",
-    name:"にんべん",
-    position:"へん",
-    meaning:"人に関係する漢字が多い"
-  },
-
-  {
-    p1:"亻",
-    p2:"系",
-    kanji:"係",
-    name:"にんべん",
-    position:"へん",
-    meaning:"人に関係する漢字が多い"
-  },
-
-  {
-    p1:"禾",
-    p2:"火",
-    kanji:"秋",
-    name:"のぎへん",
-    position:"へん",
-    meaning:"穀物などに関係する漢字が多い"
-  },
-
-  {
-    p1:"禾",
-    p2:"斗",
-    kanji:"科",
-    name:"のぎへん",
-    position:"へん",
-    meaning:"穀物などに関係する漢字が多い"
-  },
-
-  {
-    p1:"糸",
-    p2:"斗",
-    kanji:"料",
-    name:"いとへん",
-    position:"へん",
-    meaning:"糸に関係する漢字が多い"
-  },
-
-  {
-    p1:"竹",
-    p2:"毛",
-    kanji:"筆",
-    name:"たけかんむり",
-    position:"かんむり",
-    meaning:"竹に関係する道具などの漢字に使われる"
-  },
-
-  {
-    p1:"門",
-    p2:"日",
-    kanji:"間",
-    name:"もんがまえ",
-    position:"かまえ",
-    meaning:"門の形を外側から囲む"
-  },
-
-  {
-    p1:"門",
-    p2:"耳",
-    kanji:"聞",
-    name:"もんがまえ",
-    position:"かまえ",
-    meaning:"門の形を外側から囲む"
-  },
-
-  {
-    p1:"門",
-    p2:"口",
-    kanji:"問",
-    name:"もんがまえ",
-    position:"かまえ",
-    meaning:"門の形を外側から囲む"
-  },
-
-  {
-    p1:"囗",
-    p2:"玉",
-    kanji:"国",
-    name:"くにがまえ",
-    position:"かまえ",
-    meaning:"外側から囲む形"
-  },
-
-  {
-    p1:"辶",
-    p2:"首",
-    kanji:"道",
-    name:"しんにょう",
-    position:"にょう",
-    meaning:"道や進むことに関係する漢字が多い"
-  },
-
-  {
-    p1:"辶",
-    p2:"斤",
-    kanji:"近",
-    name:"しんにょう",
-    position:"にょう",
-    meaning:"道や移動に関係する漢字が多い"
-  },
-
-  {
-    p1:"雨",
-    p2:"云",
-    kanji:"雲",
-    name:"あめかんむり",
-    position:"かんむり",
-    meaning:"天気や自然に関係する漢字に使われる"
-  }
-
-];
-
-
-/* =====================================================
-   カード一覧
-===================================================== */
-
-const cardsPool = [
-
-  "木","反","主","寸",
-  "氵","也","毎","由",
-  "亻","本","系",
-  "禾","火","斗",
-  "糸",
-  "竹","毛",
-  "門","日","耳","口",
-  "囗","玉",
-  "辶","首","斤",
-  "雨","云"
-
-];
-
-
-/* =====================================================
-   画面切り替え
-===================================================== */
-
-function openScreen(id){
-
-  document.querySelectorAll(".screen")
-    .forEach(screen=>{
-      screen.classList.remove("active");
-    });
-
-  document.getElementById(id)
-    .classList.add("active");
-
-  window.scrollTo(0,0);
-}
-
-
-function goHome(){
-
-  openScreen("home-screen");
-
-}
-
-
-/* =====================================================
-   パズル
-===================================================== */
-
-let puzzleCurrent = null;
-let puzzleSel1 = null;
-let puzzleSel2 = null;
-
-
-function openPuzzle(){
-
-  openScreen("puzzle-screen");
-
-  createPuzzleCards();
-
-  resetPuzzle();
-
-}
-
-
-function createPuzzleCards(){
-
-  const container =
-    document.getElementById("cards");
-
-  container.innerHTML = "";
-
-  cardsPool.forEach(char=>{
-
-    const card =
-      document.createElement("button");
-
-    card.className = "card";
-
-    card.textContent = char;
-
-    card.onclick = function(){
-
-      selectPuzzleCard(char,card);
-
-    };
-
-    container.appendChild(card);
-
-  });
-
-}
-
-
-function resetPuzzle(){
-
-  puzzleSel1 = null;
-  puzzleSel2 = null;
-
-  document.getElementById("slot1")
-    .textContent = "？";
-
-  document.getElementById("slot2")
-    .textContent = "？";
-
-  document.getElementById("slot1")
-    .classList.remove("filled");
-
-  document.getElementById("slot2")
-    .classList.remove("filled");
-
-  document.getElementById("combine-btn")
-    .disabled = true;
-
-  document.getElementById("puzzle-result")
-    .innerHTML =
-      `<div style="font-weight:bold;color:#64748b;">
-        カードをえらんでね
-       </div>`;
-
-  document.querySelectorAll(".card")
-    .forEach(c=>{
-      c.classList.remove("selected");
-    });
-
-}
-
-
-function selectPuzzleCard(char,element){
-
-  if(!puzzleSel1){
-
-    puzzleSel1 = char;
-
-    element.classList.add("selected");
-
-    document.getElementById("slot1")
-      .textContent = char;
-
-    document.getElementById("slot1")
-      .classList.add("filled");
-
-    return;
-  }
-
-
-  if(!puzzleSel2 && element.classList.contains("selected") === false){
-
-    puzzleSel2 = char;
-
-    element.classList.add("selected");
-
-    document.getElementById("slot2")
-      .textContent = char;
-
-    document.getElementById("slot2")
-      .classList.add("filled");
-
-    document.getElementById("combine-btn")
-      .disabled = false;
-
-  }
-
-}
-
-
-function combineCards(){
-
-  const match =
-    puzzleData.find(item=>{
-
-      return (
-
-        (item.p1 === puzzleSel1 &&
-         item.p2 === puzzleSel2)
-
-        ||
-
-        (item.p1 === puzzleSel2 &&
-         item.p2 === puzzleSel1)
-
-      );
-
-    });
-
-
-  const result =
-    document.getElementById("puzzle-result");
-
-
-  if(match){
-
-    puzzleCurrent = match;
-
-    result.innerHTML = `
-
-      <div class="result-kanji">
-        ${match.kanji}
-      </div>
-
-      <div class="result-good">
-        ⭕ 大正解！
-      </div>
-
-      <div style="font-weight:bold;margin-top:5px;">
-        ${match.name}（${match.position}）
-      </div>
-
-      <div style="font-size:13px;color:#64748b;margin-top:3px;">
-        ${match.meaning}
-      </div>
-
-    `;
-
-  }else{
-
-    result.innerHTML = `
-
-      <div class="result-bad">
-        ❌ この組み合わせではないよ
-      </div>
-
-      <div style="font-size:14px;margin-top:5px;">
-        もう一度考えてみよう！
-      </div>
-
-    `;
-
-  }
-
-
-  setTimeout(()=>{
-
-    resetPuzzle();
-
-  },2200);
-
-}
-
-
-/* =====================================================
-   部分クイズ
-===================================================== */
-
-const partQuizData = [
-
-  {
-    kanji:"板",
-    q:"「板」のへんはどれ？",
-    opts:["木","反","日"],
-    ans:0,
-    explain:"「木」が左側にあるので、へんです。"
-  },
-
-  {
-    kanji:"休",
-    q:"「休」のへんはどれ？",
-    opts:["木","亻","本"],
-    ans:1,
-    explain:"「亻」は人を表す「にんべん」です。"
-  },
-
-  {
-    kanji:"雲",
-    q:"「雲」のかんむりはどれ？",
-    opts:["云","雨","木"],
-    ans:1,
-    explain:"「雨」が上にあるので「あめかんむり」です。"
-  },
-
-  {
-    kanji:"間",
-    q:"「間」のかまえはどれ？",
-    opts:["日","門","月"],
-    ans:1,
-    explain:"「門」が外側から囲んでいるので「かまえ」です。"
-  },
-
-  {
-    kanji:"道",
-    q:"「道」のにょうはどれ？",
-    opts:["首","辶","木"],
-    ans:1,
-    explain:"「辶」が左下を通るので「にょう」です。"
-  },
-
-  {
-    kanji:"筆",
-    q:"「筆」のかんむりはどれ？",
-    opts:["毛","竹","日"],
-    ans:1,
-    explain:"「竹」が上にあるので「たけかんむり」です。"
-  }
-
-];
-
-
-let partIndex = 0;
-
-
-function openPartQuiz(){
-
-  partIndex = 0;
-
-  openScreen("part-quiz-screen");
-
-  showPartQuiz();
-
-}
-
-
-function showPartQuiz(){
-
-  const data =
-    partQuizData[partIndex];
-
-
-  document.getElementById("part-kanji")
-    .textContent = data.kanji;
-
-  document.getElementById("part-question")
-    .textContent = data.q;
-
-
-  const container =
-    document.getElementById("part-options");
-
-  container.innerHTML = "";
-
-
-  document.getElementById("part-feedback")
-    .innerHTML = "";
-
-
-  document.getElementById("part-feedback")
-    .style.background = "";
-
-
-  document.getElementById("part-next")
-    .style.display = "none";
-
-
-  data.opts.forEach((opt,index)=>{
-
-    const btn =
-      document.createElement("button");
-
-    btn.className = "option";
-
-    btn.textContent =
-      `${index+1}. ${opt}`;
-
-    btn.onclick = ()=>{
-
-      checkPartQuiz(index,btn);
-
-    };
-
-    container.appendChild(btn);
-
-  });
-
-}
-
-
-function checkPartQuiz(index,button){
-
-  const data =
-    partQuizData[partIndex];
-
-  const buttons =
-    document.querySelectorAll(
-      "#part-options .option"
-    );
-
-
-  buttons.forEach(b=>{
-    b.disabled = true;
-  });
-
-
-  if(index === data.ans){
-
-    button.classList.add("correct");
-
-    document.getElementById("part-feedback")
-      .innerHTML =
-      `⭕ 大正解！<br>${data.explain}`;
-
-    document.getElementById("part-feedback")
-      .style.background = "#dcfce7";
-
-  }else{
-
-    button.classList.add("wrong");
-
-    buttons[data.ans]
-      .classList.add("correct");
-
-    document.getElementById("part-feedback")
-      .innerHTML =
-      `❌ 残念！<br>${data.explain}`;
-
-    document.getElementById("part-feedback")
-      .style.background = "#fee2e2";
-
-  }
-
-
-  document.getElementById("part-next")
-    .style.display = "block";
-
-}
-
-
-function nextPartQuiz(){
-
-  partIndex++;
-
-  if(partIndex >= partQuizData.length){
-
-    partIndex = 0;
-
-  }
-
-  showPartQuiz();
-
-}
-
-
-/* =====================================================
-   意味クイズ
-===================================================== */
-
-const meaningQuizData = [
-
-  {
-    symbol:"木",
-    q:"「木」がへんになる漢字には、どんなものが多い？",
-    opts:[
-      "木に関係するもの",
-      "水に関係するもの",
-      "人に関係するもの"
-    ],
-    ans:0,
-    explain:"きへんは、木に関係する意味をもつ漢字に多く使われます。"
-  },
-
-  {
-    symbol:"氵",
-    q:"「氵（さんずい）」のつく漢字には、どんなものが多い？",
-    opts:[
-      "水や液体に関係するもの",
-      "空や天気だけ",
-      "人の体に関係するもの"
-    ],
-    ans:0,
-    explain:"さんずいは、水や液体に関係する漢字に多く使われます。"
-  },
-
-  {
-    symbol:"亻",
-    q:"「亻（にんべん）」のつく漢字には、どんなものが多い？",
-    opts:[
-      "人に関係するもの",
-      "植物に関係するもの",
-      "天気に関係するもの"
-    ],
-    ans:0,
-    explain:"にんべんは、人に関係する漢字に多く使われます。"
-  },
-
-  {
-    symbol:"辶",
-    q:"「辶（しんにょう）」のつく漢字には、どんなものが多い？",
-    opts:[
-      "道や移動に関係するもの",
-      "木に関係するもの",
-      "食べ物に関係するもの"
-    ],
-    ans:0,
-    explain:"しんにょうは、道や移動などに関係する漢字に多く使われます。"
-  },
-
-  {
-    symbol:"雨",
-    q:"「雨」がかんむりになる漢字には、どんなものが多い？",
-    opts:[
-      "天気や自然に関係するもの",
-      "人に関係するもの",
-      "学校に関係するもの"
-    ],
-    ans:0,
-    explain:"あめかんむりは、雨や雲など、天気や自然に関係する漢字に使われます。"
-  }
-
-];
-
-
-let meaningIndex = 0;
-
-
-function openMeaningQuiz(){
-
-  meaningIndex = 0;
-
-  openScreen("meaning-quiz-screen");
-
-  showMeaningQuiz();
-
-}
-
-
-function showMeaningQuiz(){
-
-  const data =
-    meaningQuizData[meaningIndex];
-
-
-  document.getElementById("meaning-symbol")
-    .textContent = data.symbol;
-
-  document.getElementById("meaning-question")
-    .textContent = data.q;
-
-
-  const container =
-    document.getElementById("meaning-options");
-
-  container.innerHTML = "";
-
-
-  document.getElementById("meaning-feedback")
-    .innerHTML = "";
-
-  document.getElementById("meaning-feedback")
-    .style.background = "";
-
-
-  document.getElementById("meaning-next")
-    .style.display = "none";
-
-
-  data.opts.forEach((opt,index)=>{
-
-    const btn =
-      document.createElement("button");
-
-    btn.className = "option";
-
-    btn.textContent =
-      `${index+1}. ${opt}`;
-
-    btn.onclick = ()=>{
-
-      checkMeaningQuiz(index,btn);
-
-    };
-
-    container.appendChild(btn);
-
-  });
-
-}
-
-
-function checkMeaningQuiz(index,button){
-
-  const data =
-    meaningQuizData[meaningIndex];
-
-  const buttons =
-    document.querySelectorAll(
-      "#meaning-options .option"
-    );
-
-
-  buttons.forEach(b=>{
-    b.disabled = true;
-  });
-
-
-  if(index === data.ans){
-
-    button.classList.add("correct");
-
-    document.getElementById("meaning-feedback")
-      .innerHTML =
-      `⭕ 大正解！<br>${data.explain}`;
-
-    document.getElementById("meaning-feedback")
-      .style.background = "#dcfce7";
-
-  }else{
-
-    button.classList.add("wrong");
-
-    buttons[data.ans]
-      .classList.add("correct");
-
-    document.getElementById("meaning-feedback")
-      .innerHTML =
-      `❌ 残念！<br>${data.explain}`;
-
-    document.getElementById("meaning-feedback")
-      .style.background = "#fee2e2";
-
-  }
-
-
-  document.getElementById("meaning-next")
-    .style.display = "block";
-
-}
-
-
-function nextMeaningQuiz(){
-
-  meaningIndex++;
-
-  if(meaningIndex >= meaningQuizData.length){
-
-    meaningIndex = 0;
-
-  }
-
-  showMeaningQuiz();
-
-}
-
-
-/* =====================================================
-   10問チャレンジ
-===================================================== */
-
-let challengeIndex = 0;
-let challengeScore = 0;
-let challengeQuestions = [];
-let challengeMistakes = [];
-
-
-function startChallenge(){
-
-  challengeIndex = 0;
-
-  challengeScore = 0;
-
-  challengeMistakes = [];
-
-
-  challengeQuestions =
-    createChallengeQuestions();
-
-
-  openScreen("challenge-screen");
-
-  showChallengeQuestion();
-
-}
-
-
-function createChallengeQuestions(){
-
-  const questions = [];
-
-
-  const partQuestions =
-    partQuizData.map(data=>({
-
-      type:"part",
-      data:data
-
-    }));
-
-
-  const meaningQuestions =
-    meaningQuizData.map(data=>({
-
-      type:"meaning",
-      data:data
-
-    }));
-
-
-  const all =
-    [...partQuestions,...meaningQuestions];
-
-
-  all.sort(()=>Math.random()-0.5);
-
-
-  for(let i=0;i<10;i++){
-
-    questions.push(
-      all[i % all.length]
-    );
-
-  }
-
-
-  return questions;
-
-}
-
-
-function showChallengeQuestion(){
-
-  const data =
-    challengeQuestions[challengeIndex];
-
-
-  document.getElementById("challenge-count")
-    .textContent =
-    `${challengeIndex+1} / 10`;
-
-
-  document.getElementById("challenge-score")
-    .textContent =
-    `⭐ ${challengeScore}問正解`;
-
-
-  document.getElementById("challenge-progress")
-    .style.width =
-    `${challengeIndex / 10 * 100}%`;
-
-
-  const container =
-    document.getElementById("challenge-content");
-
-
-  container.innerHTML = "";
-
-
-  const qBox =
-    document.createElement("div");
-
-  qBox.className = "question-box";
-
-
-  if(data.type === "part"){
-
-    qBox.innerHTML = `
-
-      <div class="question-kanji">
-        ${data.data.kanji}
-      </div>
-
-      <div class="question-text">
-        ${data.data.q}
-      </div>
-
-    `;
-
-  }else{
-
-    qBox.innerHTML = `
-
-      <div class="meaning-symbol">
-        ${data.data.symbol}
-      </div>
-
-      <div class="question-text">
-        ${data.data.q}
-      </div>
-
-    `;
-
-  }
-
-
-  container.appendChild(qBox);
-
-
-  const opts =
-    document.createElement("div");
-
-  opts.className = "options";
-
-
-  data.data.opts.forEach((opt,index)=>{
-
-    const btn =
-      document.createElement("button");
-
-    btn.className = "option";
-
-    btn.textContent =
-      `${index+1}. ${opt}`;
-
-    btn.onclick = ()=>{
-
-      checkChallenge(index,btn);
-
-    };
-
-    opts.appendChild(btn);
-
-  });
-
-
-  container.appendChild(opts);
-
-}
-
-
-function checkChallenge(index,button){
-
-  const question =
-    challengeQuestions[challengeIndex];
-
-  const buttons =
-    document.querySelectorAll(
-      "#challenge-content .option"
-    );
-
-
-  buttons.forEach(b=>{
-    b.disabled = true;
-  });
-
-
-  if(index === question.data.ans){
-
-    challengeScore++;
-
-    button.classList.add("correct");
-
-  }else{
-
-    button.classList.add("wrong");
-
-    buttons[question.data.ans]
-      .classList.add("correct");
-
-
-    challengeMistakes.push({
-
-      question: question.data.q,
-
-      answer:
-        question.data.opts[question.data.ans]
-
-    });
-
-  }
-
-
-  document.getElementById("challenge-score")
-    .textContent =
-    `⭐ ${challengeScore}問正解`;
-
-
-  setTimeout(()=>{
-
-    challengeIndex++;
-
-
-    if(challengeIndex >= 10){
-
-      showChallengeResult();
-
-    }else{
-
-      showChallengeQuestion();
+      });
 
     }
 
-  },1200);
 
-}
+    /* =========================================
+       カード選択
+    ========================================= */
 
+    function selectCard(char, element) {
 
-function showChallengeResult(){
+      /* 1枚目 */
 
-  document.getElementById("challenge-progress")
-    .style.width = "100%";
+      if (!sel1) {
 
+        sel1 = char;
 
-  const container =
-    document.getElementById("challenge-content");
-
-
-  let message = "";
+        element.classList.add('selected');
 
 
-  if(challengeScore === 10){
-
-    message = "🎉 パーフェクト！すごい！";
-
-  }else if(challengeScore >= 8){
-
-    message = "🌟 とてもよくできました！";
-
-  }else if(challengeScore >= 5){
-
-    message = "😊 よくできました！";
-
-  }else{
-
-    message = "💪 もう一度チャレンジしよう！";
-
-  }
+        document
+          .getElementById('slot1')
+          .textContent = char;
 
 
-  let reviewHTML = "";
+        document
+          .getElementById('slot1')
+          .classList
+          .add('filled');
 
 
-  if(challengeMistakes.length > 0){
-
-    reviewHTML = `
-
-      <div class="review-title">
-        🔄 もう一度確認しよう
-      </div>
-
-    `;
+        return;
+      }
 
 
-    challengeMistakes.forEach(item=>{
+      /* 2枚目 */
 
-      reviewHTML += `
+      if (!sel2) {
 
-        <div class="review-item">
+        /*
+          すでに選択されているカードは
+          もう一度選ばない
+        */
 
-          ${item.question}<br>
-
-          👉 正解：
-          <strong>
-            ${item.answer}
-          </strong>
-
-        </div>
-
-      `;
-
-    });
-
-  }
+        if (
+          element.classList.contains('selected')
+        ) {
+          return;
+        }
 
 
-  container.innerHTML = `
+        sel2 = char;
 
-    <div class="final-score">
-
-      <div class="final-score-text">
-        ${message}
-      </div>
-
-      <div class="final-score-number">
-        ${challengeScore}
-        <span style="font-size:30px;">
-          / 10
-        </span>
-      </div>
-
-      <div class="final-score-text">
-        問正解！
-      </div>
-
-    </div>
-
-    ${reviewHTML}
-
-    <button class="btn btn-green"
-            style="width:100%;margin-top:15px;"
-            onclick="startChallenge()">
-
-      🔄 もう一度10問！
-
-    </button>
-
-    <button class="btn btn-gray"
-            style="width:100%;margin-top:12px;"
-            onclick="goHome()">
-
-      🏠 メニューにもどる
-
-    </button>
-
-  `;
-
-}
+        element.classList.add('selected');
 
 
-/* =====================================================
-   初期化
-===================================================== */
+        document
+          .getElementById('slot2')
+          .textContent = char;
 
-window.onload = function(){
 
-  openScreen("home-screen");
+        document
+          .getElementById('slot2')
+          .classList
+          .add('filled');
 
-};
 
-</script>
+        document
+          .getElementById('combine-btn')
+          .disabled = false;
+
+      }
+
+    }
+
+
+    /* =========================================
+       ★ 選択キャンセル
+    ========================================= */
+
+    function cancelSelection() {
+
+      sel1 = null;
+      sel2 = null;
+
+
+      /* スロットを元に戻す */
+
+      document.getElementById('slot1').textContent = '？';
+
+      document.getElementById('slot2').textContent = '？';
+
+
+      document
+        .getElementById('slot1')
+        .classList
+        .remove('filled');
+
+      document
+        .getElementById('slot2')
+        .classList
+        .remove('filled');
+
+
+      /* 選択中カードの黄色を全部解除 */
+
+      document
+        .querySelectorAll('.card-item.selected')
+        .forEach(item => {
+
+          item.classList.remove('selected');
+
+        });
+
+
+      /* 合体ボタンを無効化 */
+
+      document
+        .getElementById('combine-btn')
+        .disabled = true;
+
+
+      /* メッセージも戻す */
+
+      document
+        .getElementById('result-box')
+        .innerHTML = `
+          <div
+            style="
+              color:#64748b;
+              font-weight:bold;
+            ">
+            カードをえらんでね
+          </div>
+        `;
+
+    }
+
+
+    /* =========================================
+       合体判定
+    ========================================= */
+
+    function checkCombine() {
+
+      const match =
+        puzzleData.find(item =>
+
+          (
+            item.p1 === sel1 &&
+            item.p2 === sel2
+          )
+          ||
+          (
+            item.p1 === sel2 &&
+            item.p2 === sel1
+          )
+
+        );
+
+
+      const resBox =
+        document.getElementById('result-box');
+
+
+      if (match) {
+
+        resBox.innerHTML = `
+
+          <div class="result-kanji">
+            ${match.res}
+          </div>
+
+          <div class="result-desc">
+            ⭕️ 大正解！
+            【${match.type}】
+          </div>
+
+        `;
+
+      } else {
+
+        resBox.innerHTML = `
+
+          <div
+            style="
+              color:#dc2626;
+              font-weight:bold;
+            ">
+            ❌ その組み合わせの漢字はないよ
+          </div>
+
+        `;
+
+      }
+
+
+      /*
+        2.5秒後に次の問題へ
+      */
+
+      setTimeout(() => {
+
+        initPuzzle();
+
+      }, 2500);
+
+    }
+
+
+    /* =========================================
+       クイズデータ
+    ========================================= */
+
+    const quizData = [
+
+      {
+        q:
+          "「木（きへん）」のつく漢字（板・柱・村など）は、何に関係があるでしょう？",
+
+        opts: [
+          "木に関するもの",
+          "水や海に関するもの",
+          "人の気持ちに関するもの"
+        ],
+
+        ans: 0
+      },
+
+
+      {
+        q:
+          "「氵（さんずい）」のつく漢字（油・港・池など）は、何に関係があるでしょう？",
+
+        opts: [
+          "言葉や話すこと",
+          "水や液体に関すること",
+          "動物のからだ"
+        ],
+
+        ans: 1
+      },
+
+
+      {
+        q:
+          "「亻（にんべん）」のつく漢字（休・体・係など）は、何に関係があるでしょう？",
+
+        opts: [
+          "草や花",
+          "道や歩くこと",
+          "人の行動や性質"
+        ],
+
+        ans: 2
+      },
+
+
+      {
+        q:
+          "「動」「親」の右側にある「力」や「頁（おおがい）」は何とよぶでしょう？",
+
+        opts: [
+          "へん",
+          "つくり",
+          "かんむり"
+        ],
+
+        ans: 1
+      },
+
+
+      {
+        q:
+          "「辶（しんにょう）」のつく漢字（進・近・通など）は、何に関係があるでしょう？",
+
+        opts: [
+          "道や足の運動",
+          "屋根や建物",
+          "天気や空"
+        ],
+
+        ans: 0
+      }
+
+    ];
+
+
+    let currentQ = 0;
+
+
+    /* =========================================
+       クイズ初期化
+    ========================================= */
+
+    function initQuiz() {
+
+      currentQ = 0;
+
+      showQuiz();
+
+    }
+
+
+    /* =========================================
+       クイズ表示
+    ========================================= */
+
+    function showQuiz() {
+
+      const qData =
+        quizData[currentQ];
+
+
+      document.getElementById('quiz-q')
+        .textContent =
+        `Q${currentQ + 1}. ${qData.q}`;
+
+
+      const optsContainer =
+        document.getElementById('quiz-opts');
+
+
+      optsContainer.innerHTML = '';
+
+
+      document.getElementById('quiz-result')
+        .style.display = 'none';
+
+
+      document.getElementById('quiz-next-btn')
+        .style.display = 'none';
+
+
+      qData.opts.forEach((opt, idx) => {
+
+        const btn =
+          document.createElement('button');
+
+
+        btn.className =
+          'quiz-opt-btn';
+
+
+        btn.textContent =
+          `${idx + 1}. ${opt}`;
+
+
+        btn.onclick = () => {
+
+          checkQuiz(idx);
+
+        };
+
+
+        optsContainer.appendChild(btn);
+
+      });
+
+    }
+
+
+    /* =========================================
+       クイズ判定
+    ========================================= */
+
+    function checkQuiz(idx) {
+
+      const qData =
+        quizData[currentQ];
+
+
+      const resBox =
+        document.getElementById('quiz-result');
+
+
+      resBox.style.display = 'flex';
+
+
+      if (idx === qData.ans) {
+
+        resBox.innerHTML = `
+
+          <div
+            style="
+              color:#16a34a;
+              font-weight:bold;
+              font-size:20px;
+            ">
+            ⭕️ 大正解！
+          </div>
+
+        `;
+
+      } else {
+
+        resBox.innerHTML = `
+
+          <div
+            style="
+              color:#dc2626;
+              font-weight:bold;
+              font-size:18px;
+            ">
+
+            ❌ 残念！
+            正解は
+            「${qData.opts[qData.ans]}」
+            です
+
+          </div>
+
+        `;
+
+      }
+
+
+      document
+        .getElementById('quiz-next-btn')
+        .style.display = 'block';
+
+    }
+
+
+    /* =========================================
+       次のクイズ
+    ========================================= */
+
+    function nextQuiz() {
+
+      currentQ =
+        (currentQ + 1) % quizData.length;
+
+
+      showQuiz();
+
+    }
+
+
+    /* =========================================
+       タブ切り替え
+    ========================================= */
+
+    function switchTab(num) {
+
+      document
+        .getElementById('tab1')
+        .classList
+        .toggle('active', num === 1);
+
+
+      document
+        .getElementById('tab2')
+        .classList
+        .toggle('active', num === 2);
+
+
+      document
+        .getElementById('panel1')
+        .classList
+        .toggle('active', num === 1);
+
+
+      document
+        .getElementById('panel2')
+        .classList
+        .toggle('active', num === 2);
+
+
+      if (num === 1) {
+
+        initPuzzle();
+
+      }
+
+
+      if (num === 2) {
+
+        initQuiz();
+
+      }
+
+    }
+
+
+    /* =========================================
+       起動
+    ========================================= */
+
+    window.onload = () => {
+
+      initPuzzle();
+
+      initQuiz();
+
+    };
+
+  </script>
 
 </body>
 </html>
