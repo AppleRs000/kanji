@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="robots" content="noindex,nofollow">
+  <title>漢字の組み立て マスター</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', sans-serif;
+      background-color: #f0fdf4;
+      color: #14532d;
+      margin: 0;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      font-size: clamp(18px, 4.5vw, 24px);
+      color: #15803d;
+      margin: 5px 0 10px 0;
+      text-align: center;
+    }
+
+    /* タブ切り替え */
+    .tab-container {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 12px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      border: 2px solid #22c55e;
+      border-radius: 10px;
+      background-color: #fff;
+      color: #15803d;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background-color: #22c55e;
+      color: #fff;
+    }
+
+    .panel {
+      display: none;
+      width: 100%;
+      max-width: 480px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 2px solid #bbf7d0;
+    }
+    .panel.active { display: block; }
+
+    /* モード1: 合体パズル */
+    .puzzle-stage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .card-slot {
+      width: 70px;
+      height: 80px;
+      border: 3px dashed #86efac;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      font-weight: bold;
+      background: #f7fee7;
+      color: #15803d;
+    }
+    .card-slot.filled {
+      border-style: solid;
+      border-color: #22c55e;
+      background: #dcfce7;
+    }
+    .plus { font-size: 24px; font-weight: bold; }
+
+    .result-box {
+      min-height: 80px;
+      background: #f0fdf4;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 15px;
+      border: 2px solid #86efac;
+    }
+    .result-kanji { font-size: 48px; font-weight: bold; color: #166534; line-height: 1; }
+    .result-desc { font-size: 14px; font-weight: bold; color: #15803d; margin-top: 5px; }
+
+    .card-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+    .card-item {
+      width: 55px;
+      height: 60px;
+      background: #fff;
+      border: 2px solid #4ade80;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #bbf7d0;
+    }
+    .card-item:active { transform: translateY(2px); box-shadow: none; }
+    .card-item.selected { background-color: #fef08a; border-color: #eab308; }
+
+    /* モード2: 意味クイズ */
+    .quiz-q {
+      font-size: 17px;
+      font-weight: bold;
+      color: #166534;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .quiz-opts {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .quiz-opt-btn {
+      padding: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      border: 2px solid #86efac;
+      border-radius: 10px;
+      background: #fff;
+      color: #15803d;
+      text-align: left;
+      cursor: pointer;
+    }
+    .quiz-opt-btn:active { background-color: #dcfce7; }
+
+    .btn-main {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      background: #22c55e;
+      color: white;
+      margin-top: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #15803d;
+    }
+    .btn-main:active { transform: translateY(2px); box-shadow: none; }
+    .btn-main:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+  <h1>📖 漢字の組み立て（３年国語）</h1>
+
+  <div class="tab-container">
+    <button class="tab-btn active" id="tab1" onclick="switchTab(1)">① カード合体パズル</button>
+    <button class="tab-btn" id="tab2" onclick="switchTab(2)">② 部首の意味クイズ</button>
+  </div>
+
+  <!-- パズルモード -->
+  <div class="panel active" id="panel1">
+    <div style="font-weight:bold; font-size:14px; color:#15803d;">カードを２つえらんで 漢字をつくろう！</div>
+    
+    <div class="puzzle-stage">
+      <div class="card-slot" id="slot1">？</div>
+      <div class="plus">＋</div>
+      <div class="card-slot" id="slot2">？</div>
+    </div>
+
+    <div class="result-box" id="result-box">
+      <div style="color:#64748b; font-weight:bold;">カードをえらんでね</div>
+    </div>
+
+    <button class="btn-main" id="combine-btn" onclick="checkCombine()" disabled>がったいする！</button>
+
+    <div style="margin-top:15px; font-size:13px; font-weight:bold; color:#166534;">【カードのリスト】</div>
+    <div class="card-list" id="card-list"></div>
+  </div>
+
+  <!-- クイズモード -->
+  <div class="panel" id="panel2">
+    <div class="quiz-q" id="quiz-q">問題文</div>
+    <div class="quiz-opts" id="quiz-opts"></div>
+    <div class="result-box" id="quiz-result" style="margin-top:15px; display:none;"></div>
+    <button class="btn-main" id="quiz-next-btn" onclick="nextQuiz()" style="display:none;">つぎの問題へ</button>
+  </div>
+
+  <script>
+    // 教科書P130-132の組み合わせデータ
+    const puzzleData = [
+      { p1: '木', p2: '反', res: '板', type: 'きへん (木に関係)' },
+      { p1: '氵', p2: '也', res: '池', type: 'さんずい (水に関係)' },
+      { p1: '亻', p2: '休', res: '体', type: 'にんべん (人の行動に関係)' },
+      { p1: '禾', p2: '火', res: '秋', type: 'のぎへん' },
+      { p1: '糸', p2: '斗', res: '料', type: 'いとへん' },
+      { p1: '雨', p2: 'ム', res: '雲', type: 'あめかんむり (天候に関係)' },
+      { p1: '竹', p2: '毛', res: '筆', type: 'たけかんむり (竹の道具に関係)' },
+      { p1: '門', p2: '日', res: '間', type: 'もんがまえ (門や戸に関係)' },
+      { p1: '囗', p2: '玉', res: '国', type: 'くにがまえ (かこむことに関係)' },
+      { p1: '辶', p2: '寺', res: '等', type: 'しんにょう (道や足に関係)' }
+    ];
+
+    const cardsPool = ['木', '反', '氵', '也', '亻', '休', '禾', '火', '糸', '斗', '雨', 'ム', '竹', '毛', '門', '日', '囗', '玉', '辶', '寺'];
+
+    let sel1 = null;
+    let sel2 = null;
+
+    function initPuzzle() {
+      sel1 = null;
+      sel2 = null;
+      document.getElementById('slot1').textContent = '？';
+      document.getElementById('slot2').textContent = '？';
+      document.getElementById('slot1').classList.remove('filled');
+      document.getElementById('slot2').classList.remove('filled');
+      document.getElementById('combine-btn').disabled = true;
+
+      const listContainer = document.getElementById('card-list');
+      listContainer.innerHTML = '';
+
+      cardsPool.forEach(char => {
+        const item = document.createElement('div');
+        item.className = 'card-item';
+        item.textContent = char;
+        item.onclick = () => selectCard(char, item);
+        listContainer.appendChild(item);
+      });
+    }
+
+    function selectCard(char, element) {
+      if (!sel1) {
+        sel1 = char;
+        element.classList.add('selected');
+        document.getElementById('slot1').textContent = char;
+        document.getElementById('slot1').classList.add('filled');
+      } else if (!sel2 && element.textContent !== sel1) {
+        sel2 = char;
+        element.classList.add('selected');
+        document.getElementById('slot2').textContent = char;
+        document.getElementById('slot2').classList.add('filled');
+        document.getElementById('combine-btn').disabled = false;
+      }
+    }
+
+    function checkCombine() {
+      const match = puzzleData.find(item => 
+        (item.p1 === sel1 && item.p2 === sel2) || (item.p1 === sel2 && item.p2 === sel1)
+      );
+
+      const resBox = document.getElementById('result-box');
+      if (match) {
+        resBox.innerHTML = `
+          <div class="result-kanji">${match.res}</div>
+          <div class="result-desc">⭕️ 大正解！ 【${match.type}】</div>
+        `;
+      } else {
+        resBox.innerHTML = `<div style="color:#dc2626; font-weight:bold;">❌ その組み合わせの漢字はないよ</div>`;
+      }
+
+      setTimeout(() => {
+        initPuzzle();
+      }, 2500);
+    }
+
+    // クイズモード (教科書P131-132の問いから作成)
+    const quizData = [
+      {
+        q: "「木（きへん）」のつく漢字（板・柱・村など）は、何に関係があるでしょう？",
+        opts: ["木に関するもの", "水や海に関するもの", "人の気持ちに関するもの"],
+        ans: 0
+      },
+      {
+        q: "「氵（さんずい）」のつく漢字（油・港・池など）は、何に関係があるでしょう？",
+        opts: ["言葉や話すこと", "水や液体に関すること", "動物のからだ"],
+        ans: 1
+      },
+      {
+        q: "「亻（にんべん）」のつく漢字（休・体・係など）は、何に関係があるでしょう？",
+        opts: ["草や花", "道や歩くこと", "人の行動や性質"],
+        ans: 2
+      },
+      {
+        q: "「動」「親」の右側にある「力」や「頁（おおがい）」は何とよぶでしょう？",
+        opts: ["へん", "つくり", "かんむり"],
+        ans: 1
+      },
+      {
+        q: "「辶（しんにょう）」のつく漢字（進・近・通など）は、何に関係があるでしょう？",
+        opts: ["道や足の運動", "屋根や建物", "天気や空"],
+        ans: 0
+      }
+    ];
+
+    let currentQ = 0;
+
+    function initQuiz() {
+      currentQ = 0;
+      showQuiz();
+    }
+
+    function showQuiz() {
+      const qData = quizData[currentQ];
+      document.getElementById('quiz-q').textContent = `Q${currentQ + 1}. ${qData.q}`;
+      const optsContainer = document.getElementById('quiz-opts');
+      optsContainer.innerHTML = '';
+      document.getElementById('quiz-result').style.display = 'none';
+      document.getElementById('quiz-next-btn').style.display = 'none';
+
+      qData.opts.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt-btn';
+        btn.textContent = `${idx + 1}. ${opt}`;
+        btn.onclick = () => checkQuiz(idx);
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function checkQuiz(idx) {
+      const qData = quizData[currentQ];
+      const resBox = document.getElementById('quiz-result');
+      resBox.style.display = 'flex';
+
+      if (idx === qData.ans) {
+        resBox.innerHTML = `<div style="color:#16a34a; font-weight:bold; font-size:20px;">⭕️ 大正解！</div>`;
+      } else {
+        resBox.innerHTML = `<div style="color:#dc2626; font-weight:bold; font-size:18px;">❌ 残念！ 正解は 「${qData.opts[qData.ans]}」 です</div>`;
+      }
+
+      document.getElementById('quiz-next-btn').style.display = 'block';
+    }
+
+    function nextQuiz() {
+      currentQ = (currentQ + 1) % quizData.length;
+      showQuiz();
+    }
+
+    function switchTab(num) {
+      document.getElementById('tab1').classList.toggle('active', num === 1);
+      document.getElementById('tab2').classList.toggle('active', num === 2);
+      document.getElementById('panel1').classList.toggle('active', num === 1);
+      document.getElementById('panel2').classList.toggle('active', num === 2);
+
+      if (num === 1) initPuzzle();
+      if (num === 2) initQuiz();
+    }
+
+    window.onload = () => {
+      initPuzzle();
+      initQuiz();
+    };
+  </script>
+</body>
+</html>
