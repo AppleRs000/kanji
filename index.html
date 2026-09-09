@@ -211,7 +211,7 @@
   </div>
 
   <script>
-    // 教科書P130-132の組み合わせデータ
+    // 教科書P130-132の組み合わせデータ（修正済み）
     const puzzleData = [
       { p1: '木', p2: '反', res: '板', type: 'きへん (木に関係)' },
       { p1: '氵', p2: '也', res: '池', type: 'さんずい (水に関係)' },
@@ -222,7 +222,7 @@
       { p1: '竹', p2: '毛', res: '筆', type: 'たけかんむり (竹の道具に関係)' },
       { p1: '門', p2: '日', res: '間', type: 'もんがまえ (門や戸に関係)' },
       { p1: '囗', p2: '玉', res: '国', type: 'くにがまえ (かこむことに関係)' },
-      { p1: '辶', p2: '寺', res: '等', type: 'しんにょう (道や足に関係)' }
+      { p1: '辶', p2: '寺', res: '道', type: 'しんにょう (道や足に関係)' }
     ];
 
     const cardsPool = ['木', '反', '氵', '也', '亻', '休', '禾', '火', '糸', '斗', '雨', 'ム', '竹', '毛', '門', '日', '囗', '玉', '辶', '寺'];
@@ -257,7 +257,7 @@
         element.classList.add('selected');
         document.getElementById('slot1').textContent = char;
         document.getElementById('slot1').classList.add('filled');
-      } else if (!sel2 && element.textContent !== sel1) {
+      } else if (!sel2 && element !== document.querySelector('.card-item.selected')) {
         sel2 = char;
         element.classList.add('selected');
         document.getElementById('slot2').textContent = char;
@@ -286,7 +286,7 @@
       }, 2500);
     }
 
-    // クイズモード (教科書P131-132の問いから作成)
+    // クイズモード
     const quizData = [
       {
         q: "「木（きへん）」のつく漢字（板・柱・村など）は、何に関係があるでしょう？",
