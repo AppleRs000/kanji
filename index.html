@@ -323,11 +323,20 @@ button.reset-button {
    クイズ
 -------------------- */
 
+.quiz-progress {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #388e3c;
+  margin: 8px 0 15px;
+}
+
 .quiz-question {
   text-align: center;
   font-size: 26px;
   font-weight: bold;
   margin: 20px 0;
+  line-height: 1.5;
 }
 
 .quiz-options {
@@ -354,12 +363,61 @@ button.reset-button {
   background: #f1f8e9;
 }
 
+.quiz-option:disabled {
+  cursor: default;
+}
+
+.quiz-option.correct {
+  background: #c8e6c9;
+  border-color: #43a047;
+}
+
+.quiz-option.wrong {
+  background: #ffcdd2;
+  border-color: #e53935;
+}
+
 .quiz-result {
   text-align: center;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: bold;
   margin: 18px 0;
-  min-height: 30px;
+  min-height: 60px;
+  line-height: 1.5;
+}
+
+/* --------------------
+   クイズ終了画面
+-------------------- */
+
+.quiz-finish {
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.quiz-finish .big {
+  font-size: 65px;
+}
+
+.quiz-finish h2 {
+  font-size: 32px;
+  color: #2e7d32;
+  margin: 10px 0 20px;
+}
+
+.quiz-score {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 16px;
+  padding: 15px 28px;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.quiz-finish p {
+  font-size: 20px;
 }
 
 /* --------------------
@@ -414,6 +472,24 @@ button.reset-button {
   .card {
     font-size: 27px;
     border-width: 2px;
+  }
+
+  .quiz-question {
+    font-size: 22px;
+  }
+
+  .quiz-options {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .quiz-option {
+    font-size: 20px;
+    padding: 15px;
+  }
+
+  .quiz-score {
+    font-size: 26px;
   }
 
 }
@@ -570,33 +646,78 @@ button.reset-button {
 
   <div class="panel">
 
-    <div class="instruction">
-      部首の意味を考えよう！
+    <!-- クイズ本体 -->
+
+    <div id="quizGame">
+
+      <div class="instruction">
+        部首の意味を考えよう！
+      </div>
+
+      <div
+        id="quizProgress"
+        class="quiz-progress">
+        第1問 / 15問
+      </div>
+
+      <div
+        id="quizQuestion"
+        class="quiz-question">
+      </div>
+
+      <div
+        id="quizOptions"
+        class="quiz-options">
+      </div>
+
+      <div
+        id="quizResult"
+        class="quiz-result">
+      </div>
+
+      <div class="button-area">
+
+        <button
+          id="nextQuizButton"
+          class="main-button"
+          onclick="nextQuiz()"
+          style="display:none;">
+          次の問題 →
+        </button>
+
+      </div>
+
     </div>
+
+
+    <!-- クイズ終了 -->
 
     <div
-      id="quizQuestion"
-      class="quiz-question">
-    </div>
+      id="quizFinish"
+      class="quiz-finish"
+      style="display:none;">
 
-    <div
-      id="quizOptions"
-      class="quiz-options">
-    </div>
+      <div class="big">
+        🎉
+      </div>
 
-    <div
-      id="quizResult"
-      class="quiz-result">
-    </div>
+      <h2>
+        クイズ終了！
+      </h2>
 
-    <div class="button-area">
+      <div
+        id="quizScore"
+        class="quiz-score">
+      </div>
+
+      <p>
+        よくがんばりました！
+      </p>
 
       <button
-        id="nextQuizButton"
         class="main-button"
-        onclick="nextQuiz()"
-        style="display:none;">
-        次の問題 →
+        onclick="restartQuiz()">
+        🔄 もう一度挑戦
       </button>
 
     </div>
@@ -779,22 +900,6 @@ function createCardPool() {
 
   puzzleData.forEach((puzzle, index) => {
 
-    /*
-      ここが今回の重要ポイント。
-
-      puzzleIndexではなく、
-      「カードに書かれている文字」
-      そのものを正解判定に使う。
-
-      そのため、
-
-      木＋目
-      木＋黄
-      木＋直
-
-      の「木」はどれでも使える。
-    */
-
     pool.push({
       char: puzzle.p1
     });
@@ -904,19 +1009,9 @@ function createCards() {
 
 function selectCard(element, index) {
 
-  /*
-    すでに2枚選んでいる場合は
-    何もしない
-  */
-
   if (selectedCards.length >= 2) {
     return;
   }
-
-
-  /*
-    同じカードを2回選ぶのを防ぐ
-  */
 
   if (
     selectedCards.some(
@@ -926,7 +1021,6 @@ function selectCard(element, index) {
     return;
   }
 
-
   element.classList.add('selected');
 
   selectedCards.push({
@@ -934,11 +1028,6 @@ function selectCard(element, index) {
     char: cards[index].char,
     element: element
   });
-
-
-  /*
-    スロット表示
-  */
 
   if (selectedCards.length === 1) {
 
@@ -955,7 +1044,6 @@ function selectCard(element, index) {
       selectedCards[1].char;
 
   }
-
 
   updateCombineButton();
 
@@ -985,23 +1073,11 @@ function checkCombine() {
     return;
   }
 
-
   const char1 =
     selectedCards[0].char;
 
   const char2 =
     selectedCards[1].char;
-
-
-  /*
-    今回の重要ポイント
-
-    「どのカードを選んだか」ではなく、
-
-    「カードに書いてある文字」
-
-    で判定する。
-  */
 
   const puzzleIndex =
     puzzleData.findIndex(puzzle => {
@@ -1019,11 +1095,6 @@ function checkCombine() {
       );
 
     });
-
-
-  /*
-    すでに完成している漢字か確認
-  */
 
   if (
     puzzleIndex !== -1 &&
@@ -1046,15 +1117,9 @@ function checkCombine() {
     const puzzle =
       puzzleData[puzzleIndex];
 
-
     document.getElementById('resultKanji')
       .textContent =
       puzzle.res;
-
-
-    /*
-      カードを消す
-    */
 
     selectedCards.forEach(card => {
 
@@ -1062,30 +1127,15 @@ function checkCombine() {
 
     });
 
-
-    /*
-      完成済みに追加
-    */
-
     completedPuzzles.push(puzzleIndex);
-
 
     updateProgress();
 
     updateCompletedList();
 
-
-    /*
-      一瞬、完成した漢字を見せる
-    */
-
     setTimeout(() => {
 
       resetSlots();
-
-      /*
-        全問終了
-      */
 
       if (
         completedPuzzles.length ===
@@ -1125,7 +1175,6 @@ function showWrong() {
 
   area.classList.add('wrong');
 
-
   setTimeout(() => {
 
     area.classList.remove('wrong');
@@ -1152,7 +1201,6 @@ function resetSlots() {
   document.getElementById('resultKanji')
     .textContent = '？';
 
-
   document
     .querySelectorAll('.card.selected')
     .forEach(card => {
@@ -1160,7 +1208,6 @@ function resetSlots() {
       card.classList.remove('selected');
 
     });
-
 
   updateCombineButton();
 
@@ -1194,7 +1241,6 @@ function updateCompletedList() {
     document.getElementById('completedList');
 
   list.innerHTML = '';
-
 
   completedPuzzles.forEach(index => {
 
@@ -1252,10 +1298,8 @@ function switchTab(tab) {
   const quizScreen =
     document.getElementById('quizScreen');
 
-
   const tabs =
     document.querySelectorAll('.tab');
-
 
   tabs.forEach(tabButton => {
 
@@ -1290,75 +1334,316 @@ function switchTab(tab) {
 
 
 /* =================================
-   部首クイズ
+   ② 部首の意味クイズ
 ================================= */
 
 const quizData = [
 
+  /* 1 */
+
   {
     kanji: '湖',
+
     question: '「湖」の部首は？',
+
     options: [
       'さんずい',
       'きへん',
       'にんべん',
       'ごんべん'
     ],
-    answer: 'さんずい'
+
+    answer: 'さんずい',
+
+    meaning: '「さんずい」は、水に関係する意味を表す部首です。'
   },
+
+
+  /* 2 */
 
   {
     kanji: '酒',
+
     question: '「酒」の部首は？',
+
     options: [
       'さんずい',
       'ひよみのとり',
       'きへん',
       'かねへん'
     ],
-    answer: 'ひよみのとり'
+
+    answer: 'ひよみのとり',
+
+    meaning: '「ひよみのとり（酉）」は、酒などに関係する漢字に使われます。'
   },
+
+
+  /* 3 */
 
   {
     kanji: '相',
+
     question: '「相」の部首は？',
+
     options: [
       'きへん',
       'めへん',
       'さんずい',
       'てへん'
     ],
-    answer: 'きへん'
+
+    answer: 'きへん',
+
+    meaning: '「きへん」は、木や木に関係する意味を表す部首です。'
   },
+
+
+  /* 4 */
 
   {
     kanji: '鉄',
+
     question: '「鉄」の部首は？',
+
     options: [
       'かねへん',
       'てへん',
       'ごんべん',
       'きへん'
     ],
-    answer: 'かねへん'
+
+    answer: 'かねへん',
+
+    meaning: '「かねへん」は、金属や金属でできたものに関係する漢字に使われます。'
   },
+
+
+  /* 5 */
 
   {
     kanji: '練',
+
     question: '「練」の部首は？',
+
     options: [
       'いとへん',
       'きへん',
       'さんずい',
       'ごんべん'
     ],
-    answer: 'いとへん'
+
+    answer: 'いとへん',
+
+    meaning: '「いとへん」は、糸や布などに関係する漢字に使われます。'
+  },
+
+
+  /* 6 */
+
+  {
+    kanji: '話',
+
+    question: '「話」の部首は？',
+
+    options: [
+      'ごんべん',
+      'てへん',
+      'にんべん',
+      'きへん'
+    ],
+
+    answer: 'ごんべん',
+
+    meaning: '「ごんべん」は、言葉や話すことに関係する漢字に使われます。'
+  },
+
+
+  /* 7 */
+
+  {
+    kanji: '持',
+
+    question: '「持」の部首は？',
+
+    options: [
+      'てへん',
+      'きへん',
+      'ごんべん',
+      'にんべん'
+    ],
+
+    answer: 'てへん',
+
+    meaning: '「てへん」は、手を使う動作に関係する漢字に使われます。'
+  },
+
+
+  /* 8 */
+
+  {
+    kanji: '花',
+
+    question: '「花」の部首は？',
+
+    options: [
+      'くさかんむり',
+      'きへん',
+      'たけかんむり',
+      'さんずい'
+    ],
+
+    answer: 'くさかんむり',
+
+    meaning: '「くさかんむり」は、草や植物に関係する漢字に使われます。'
+  },
+
+
+  /* 9 */
+
+  {
+    kanji: '休',
+
+    question: '「休」の部首は？',
+
+    options: [
+      'にんべん',
+      'きへん',
+      'てへん',
+      'さんずい'
+    ],
+
+    answer: 'にんべん',
+
+    meaning: '「にんべん」は、人に関係する漢字に使われます。'
+  },
+
+
+  /* 10 */
+
+  {
+    kanji: '秋',
+
+    question: '「秋」の部首は？',
+
+    options: [
+      'のぎへん',
+      'ひへん',
+      'きへん',
+      'さんずい'
+    ],
+
+    answer: 'のぎへん',
+
+    meaning: '「のぎへん」は、穀物や稲などに関係する漢字に使われます。'
+  },
+
+
+  /* 11 */
+
+  {
+    kanji: '速',
+
+    question: '「速」の部首は？',
+
+    options: [
+      'しんにょう',
+      'てへん',
+      'にんべん',
+      'もんがまえ'
+    ],
+
+    answer: 'しんにょう',
+
+    meaning: '「しんにょう」は、道や移動などに関係する漢字に使われます。'
+  },
+
+
+  /* 12 */
+
+  {
+    kanji: '問',
+
+    question: '「問」の部首は？',
+
+    options: [
+      'もんがまえ',
+      'くちへん',
+      'ごんべん',
+      'しんにょう'
+    ],
+
+    answer: 'もんがまえ',
+
+    meaning: '「もんがまえ」は、門や出入りなどに関係する漢字に使われます。'
+  },
+
+
+  /* 13 */
+
+  {
+    kanji: '拾',
+
+    question: '「拾」の部首は？',
+
+    options: [
+      'てへん',
+      'にんべん',
+      'きへん',
+      'ごんべん'
+    ],
+
+    answer: 'てへん',
+
+    meaning: '「てへん」は、手を使う動作に関係する漢字に使われます。'
+  },
+
+
+  /* 14 */
+
+  {
+    kanji: '横',
+
+    question: '「横」の部首は？',
+
+    options: [
+      'きへん',
+      'おうへん',
+      'さんずい',
+      'てへん'
+    ],
+
+    answer: 'きへん',
+
+    meaning: '「きへん」は、木や木に関係する意味を表す部首です。'
+  },
+
+
+  /* 15 */
+
+  {
+    kanji: '植',
+
+    question: '「植」の部首は？',
+
+    options: [
+      'きへん',
+      'くさかんむり',
+      'のぎへん',
+      'てへん'
+    ],
+
+    answer: 'きへん',
+
+    meaning: '「きへん」は、木や木に関係する意味を表す部首です。'
   }
 
 ];
 
 
 let currentQuiz = 0;
+
+let quizScore = 0;
 
 
 /* =================================
@@ -1368,6 +1653,14 @@ let currentQuiz = 0;
 function initQuiz() {
 
   currentQuiz = 0;
+
+  quizScore = 0;
+
+  document.getElementById('quizGame')
+    .style.display = 'block';
+
+  document.getElementById('quizFinish')
+    .style.display = 'none';
 
   showQuiz();
 
@@ -1384,10 +1677,21 @@ function showQuiz() {
     quizData[currentQuiz];
 
 
+  /* 問題番号 */
+
+  document.getElementById('quizProgress')
+    .textContent =
+    `第${currentQuiz + 1}問 / ${quizData.length}問`;
+
+
+  /* 問題 */
+
   document.getElementById('quizQuestion')
     .textContent =
     quiz.question;
 
+
+  /* 選択肢 */
 
   const options =
     document.getElementById('quizOptions');
@@ -1407,16 +1711,20 @@ function showQuiz() {
       option;
 
     button.onclick =
-      () => checkQuiz(option);
+      () => checkQuiz(option, button);
 
     options.appendChild(button);
 
   });
 
 
+  /* 結果をリセット */
+
   document.getElementById('quizResult')
     .textContent = '';
 
+
+  /* 次へボタンを隠す */
 
   document.getElementById('nextQuizButton')
     .style.display = 'none';
@@ -1428,7 +1736,7 @@ function showQuiz() {
    クイズ判定
 ================================= */
 
-function checkQuiz(answer) {
+function checkQuiz(answer, clickedButton) {
 
   const quiz =
     quizData[currentQuiz];
@@ -1438,32 +1746,97 @@ function checkQuiz(answer) {
     document.getElementById('quizResult');
 
 
+  const buttons =
+    document.querySelectorAll('.quiz-option');
+
+
+  /*
+    二重クリック防止
+  */
+
+  buttons.forEach(button => {
+
+    button.disabled = true;
+
+  });
+
+
+  /* -------------------------------
+     正解
+  -------------------------------- */
+
   if (answer === quiz.answer) {
 
+    quizScore++;
+
+    clickedButton.classList.add('correct');
+
     result.textContent =
-      `⭕ 正解！「${quiz.answer}」です。`;
+      `⭕ 正解！「${quiz.answer}」です。 ${quiz.meaning}`;
+
+  }
+
+
+  /* -------------------------------
+     不正解
+  -------------------------------- */
+
+  else {
+
+    clickedButton.classList.add('wrong');
+
+
+    /*
+      正解の選択肢を緑色にする
+    */
+
+    buttons.forEach(button => {
+
+      if (
+        button.textContent === quiz.answer
+      ) {
+
+        button.classList.add('correct');
+
+      }
+
+    });
+
+
+    result.textContent =
+      `❌ 正解は「${quiz.answer}」です。 ${quiz.meaning}`;
+
+  }
+
+
+  /* -------------------------------
+     次のボタン
+  -------------------------------- */
+
+  const nextButton =
+    document.getElementById('nextQuizButton');
+
+
+  if (
+    currentQuiz ===
+    quizData.length - 1
+  ) {
+
+    nextButton.textContent =
+      '結果を見る 🎉';
 
   }
 
   else {
 
-    result.textContent =
-      `❌ ちがいます。正解は「${quiz.answer}」です。`;
+    nextButton.textContent =
+      '次の問題 →';
 
   }
 
 
-  document
-    .querySelectorAll('.quiz-option')
-    .forEach(button => {
-
-      button.disabled = true;
-
-    });
-
-
-  document.getElementById('nextQuizButton')
-    .style.display = 'inline-block';
+  nextButton.style.display =
+    'inline-block';
 
 }
 
@@ -1474,15 +1847,57 @@ function checkQuiz(answer) {
 
 function nextQuiz() {
 
-  currentQuiz++;
+  /*
+    最後の問題なら
+    終了画面へ
+  */
 
-  if (currentQuiz >= quizData.length) {
+  if (
+    currentQuiz >=
+    quizData.length - 1
+  ) {
 
-    currentQuiz = 0;
+    finishQuiz();
+
+    return;
 
   }
 
+
+  currentQuiz++;
+
   showQuiz();
+
+}
+
+
+/* =================================
+   クイズ終了
+================================= */
+
+function finishQuiz() {
+
+  document.getElementById('quizGame')
+    .style.display = 'none';
+
+  document.getElementById('quizFinish')
+    .style.display = 'block';
+
+
+  document.getElementById('quizScore')
+    .textContent =
+    `${quizData.length}問中 ${quizScore}問正解！`;
+
+}
+
+
+/* =================================
+   もう一度挑戦
+================================= */
+
+function restartQuiz() {
+
+  initQuiz();
 
 }
 
