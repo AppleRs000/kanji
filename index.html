@@ -22,7 +22,7 @@
         'メイリオ',
         sans-serif;
 
-      background-color: #f0fdf4;
+      background: #f0fdf4;
       color: #14532d;
 
       margin: 0;
@@ -31,12 +31,14 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+
+      min-height: 100vh;
     }
 
     h1 {
-      font-size: clamp(18px, 4.5vw, 24px);
+      font-size: clamp(18px, 4.5vw, 26px);
       color: #15803d;
-      margin: 5px 0 10px 0;
+      margin: 5px 0 10px;
       text-align: center;
     }
 
@@ -49,7 +51,7 @@
       gap: 10px;
 
       width: 100%;
-      max-width: 480px;
+      max-width: 700px;
 
       margin-bottom: 12px;
     }
@@ -57,23 +59,23 @@
     .tab-btn {
       flex: 1;
 
-      padding: 10px;
+      padding: 11px 8px;
 
-      font-size: 15px;
+      font-size: clamp(13px, 3vw, 16px);
       font-weight: bold;
 
       border: 2px solid #22c55e;
       border-radius: 10px;
 
-      background-color: #fff;
+      background: #fff;
       color: #15803d;
 
       cursor: pointer;
     }
 
     .tab-btn.active {
-      background-color: #22c55e;
-      color: #fff;
+      background: #22c55e;
+      color: white;
     }
 
     /* =========================
@@ -84,9 +86,9 @@
       display: none;
 
       width: 100%;
-      max-width: 480px;
+      max-width: 700px;
 
-      background: #fff;
+      background: white;
 
       padding: 15px;
 
@@ -102,8 +104,51 @@
     }
 
     /* =========================
-       モード1
+       残りセット数
     ========================= */
+
+    .progress-area {
+      text-align: center;
+
+      margin-bottom: 12px;
+
+      padding: 10px;
+
+      background: #ecfdf5;
+
+      border-radius: 12px;
+
+      border: 2px solid #86efac;
+    }
+
+    .progress-title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #15803d;
+    }
+
+    .progress-number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #166534;
+
+      line-height: 1.1;
+    }
+
+    /* =========================
+       パズル
+    ========================= */
+
+    .instruction {
+      text-align: center;
+
+      font-weight: bold;
+      font-size: clamp(14px, 3.5vw, 17px);
+
+      color: #15803d;
+
+      margin-bottom: 8px;
+    }
 
     .puzzle-stage {
       display: flex;
@@ -111,38 +156,40 @@
       justify-content: center;
       align-items: center;
 
-      gap: 10px;
+      gap: clamp(8px, 3vw, 18px);
 
-      margin: 15px 0;
+      margin: 10px 0 15px;
     }
 
     .card-slot {
-      width: 70px;
-      height: 80px;
+      width: clamp(65px, 18vw, 90px);
+      height: clamp(70px, 20vw, 95px);
 
       border: 3px dashed #86efac;
-      border-radius: 10px;
+
+      border-radius: 12px;
 
       display: flex;
       justify-content: center;
       align-items: center;
 
-      font-size: 32px;
+      font-size: clamp(30px, 9vw, 44px);
+
       font-weight: bold;
 
       background: #f7fee7;
+
       color: #15803d;
     }
 
     .card-slot.filled {
       border-style: solid;
       border-color: #22c55e;
-
       background: #dcfce7;
     }
 
     .plus {
-      font-size: 24px;
+      font-size: clamp(22px, 6vw, 32px);
       font-weight: bold;
     }
 
@@ -151,7 +198,7 @@
     ========================= */
 
     .result-box {
-      min-height: 80px;
+      min-height: 90px;
 
       background: #f0fdf4;
 
@@ -163,13 +210,18 @@
       justify-content: center;
       align-items: center;
 
-      margin-bottom: 15px;
+      margin-bottom: 12px;
 
       border: 2px solid #86efac;
+
+      text-align: center;
+
+      padding: 8px;
     }
 
     .result-kanji {
-      font-size: 48px;
+      font-size: clamp(42px, 13vw, 60px);
+
       font-weight: bold;
 
       color: #166534;
@@ -178,47 +230,130 @@
     }
 
     .result-desc {
-      font-size: 14px;
+      font-size: clamp(13px, 3vw, 16px);
+
       font-weight: bold;
 
       color: #15803d;
 
-      margin-top: 5px;
+      margin-top: 6px;
     }
 
     /* =========================
-       カード
+       完成した漢字
     ========================= */
 
-    .card-list {
-      display: flex;
-      flex-wrap: wrap;
+    .completed-area {
+      margin-top: 15px;
+      padding: 10px;
 
-      gap: 8px;
+      background: #fefce8;
 
-      justify-content: center;
+      border: 2px solid #fde68a;
+
+      border-radius: 12px;
     }
 
-    .card-item {
-      width: 55px;
-      height: 60px;
+    .completed-title {
+      text-align: center;
 
-      background: #fff;
+      font-size: 14px;
+      font-weight: bold;
 
-      border: 2px solid #4ade80;
+      color: #a16207;
 
-      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .completed-list {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      justify-content: center;
+
+      gap: 6px;
+    }
+
+    .completed-kanji {
+      width: 42px;
+      height: 42px;
 
       display: flex;
       justify-content: center;
       align-items: center;
 
+      background: #fef08a;
+
+      border: 2px solid #eab308;
+
+      border-radius: 8px;
+
       font-size: 24px;
+
       font-weight: bold;
+
+      color: #713f12;
+    }
+
+    /* =========================
+       カード一覧
+    ========================= */
+
+    .card-title {
+      margin-top: 15px;
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      color: #166534;
+
+      text-align: center;
+    }
+
+    .card-list {
+      display: grid;
+
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(52px, 1fr)
+      );
+
+      gap: 8px;
+
+      margin-top: 8px;
+    }
+
+    .card-item {
+      min-width: 0;
+
+      height: clamp(52px, 12vw, 64px);
+
+      background: white;
+
+      border: 2px solid #4ade80;
+
+      border-radius: 9px;
+
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+
+      font-size: clamp(22px, 6vw, 28px);
+
+      font-weight: bold;
+
+      color: #166534;
 
       cursor: pointer;
 
       box-shadow: 0 3px 0 #bbf7d0;
+
+      transition:
+        transform 0.08s,
+        background 0.15s;
     }
 
     .card-item:active {
@@ -227,95 +362,27 @@
     }
 
     .card-item.selected {
-      background-color: #fef08a;
+      background: #fef08a;
       border-color: #eab308;
     }
 
-    /* =========================
-       選択キャンセル
-    ========================= */
-
-    .cancel-btn {
-      width: 100%;
-
-      padding: 10px;
-
-      margin-top: 10px;
-
-      font-size: 15px;
-      font-weight: bold;
-
-      border: 2px solid #94a3b8;
-
-      border-radius: 10px;
-
-      background: #f8fafc;
-
-      color: #475569;
-
-      cursor: pointer;
-    }
-
-    .cancel-btn:active {
-      background: #e2e8f0;
-      transform: translateY(1px);
+    /* 選択できない状態 */
+    .card-item.used {
+      opacity: 0.35;
+      pointer-events: none;
     }
 
     /* =========================
-       クイズ
-    ========================= */
-
-    .quiz-q {
-      font-size: 17px;
-      font-weight: bold;
-
-      color: #166534;
-
-      margin-bottom: 12px;
-
-      line-height: 1.4;
-    }
-
-    .quiz-opts {
-      display: flex;
-      flex-direction: column;
-
-      gap: 10px;
-    }
-
-    .quiz-opt-btn {
-      padding: 12px;
-
-      font-size: 15px;
-      font-weight: bold;
-
-      border: 2px solid #86efac;
-
-      border-radius: 10px;
-
-      background: #fff;
-
-      color: #15803d;
-
-      text-align: left;
-
-      cursor: pointer;
-    }
-
-    .quiz-opt-btn:active {
-      background-color: #dcfce7;
-    }
-
-    /* =========================
-       メインボタン
+       ボタン
     ========================= */
 
     .btn-main {
       width: 100%;
 
-      padding: 12px;
+      padding: 13px 10px;
 
-      font-size: 16px;
+      font-size: clamp(15px, 4vw, 18px);
+
       font-weight: bold;
 
       border: none;
@@ -326,7 +393,7 @@
 
       color: white;
 
-      margin-top: 10px;
+      margin-top: 8px;
 
       cursor: pointer;
 
@@ -340,40 +407,210 @@
 
     .btn-main:disabled {
       background: #cbd5e1;
-
       box-shadow: none;
-
       cursor: not-allowed;
     }
 
+    .btn-reset {
+      background: #64748b;
+      box-shadow: 0 4px 0 #475569;
+    }
+
     /* =========================
-       スマホ
+       コンプリート画面
     ========================= */
 
-    @media (max-width: 380px) {
+    .complete-screen {
+      display: none;
+
+      text-align: center;
+
+      padding: 25px 10px;
+    }
+
+    .complete-screen.show {
+      display: block;
+    }
+
+    .complete-icon {
+      font-size: 60px;
+      margin-bottom: 10px;
+    }
+
+    .complete-title {
+      font-size: clamp(25px, 8vw, 38px);
+
+      font-weight: bold;
+
+      color: #16a34a;
+
+      margin-bottom: 8px;
+    }
+
+    .complete-text {
+      font-size: 16px;
+
+      font-weight: bold;
+
+      color: #166534;
+
+      margin-bottom: 15px;
+    }
+
+    /* =========================
+       クイズ
+    ========================= */
+
+    .quiz-q {
+      font-size: 17px;
+
+      font-weight: bold;
+
+      color: #166534;
+
+      margin-bottom: 12px;
+
+      line-height: 1.5;
+    }
+
+    .quiz-opts {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 10px;
+    }
+
+    .quiz-opt-btn {
+      padding: 13px;
+
+      font-size: 15px;
+
+      font-weight: bold;
+
+      border: 2px solid #86efac;
+
+      border-radius: 10px;
+
+      background: white;
+
+      color: #15803d;
+
+      text-align: left;
+
+      cursor: pointer;
+    }
+
+    .quiz-opt-btn:active {
+      background: #dcfce7;
+    }
+
+    /* =========================
+       iPad 横向き
+    ========================= */
+
+    @media (orientation: landscape) and (min-width: 700px) {
+
+      body {
+        padding: 8px 20px;
+      }
+
+      h1 {
+        margin: 2px 0 6px;
+      }
+
+      .panel {
+        max-width: 900px;
+      }
+
+      .card-list {
+        grid-template-columns: repeat(
+          10,
+          1fr
+        );
+      }
 
       .card-item {
-        width: 50px;
-        height: 55px;
+        height: 58px;
+      }
 
+      .puzzle-stage {
+        margin: 8px 0 10px;
+      }
+
+      .result-box {
+        min-height: 80px;
+      }
+    }
+
+    /* =========================
+       iPhone 横向き
+    ========================= */
+
+    @media (orientation: landscape) and (max-height: 500px) {
+
+      body {
+        padding: 5px 10px;
+      }
+
+      h1 {
+        font-size: 18px;
+        margin: 2px 0 5px;
+      }
+
+      .tab-container {
+        margin-bottom: 6px;
+      }
+
+      .panel {
+        padding: 10px;
+      }
+
+      .progress-area {
+        padding: 5px;
+        margin-bottom: 6px;
+      }
+
+      .progress-number {
         font-size: 22px;
       }
 
-      .card-slot {
-        width: 65px;
-        height: 75px;
+      .puzzle-stage {
+        margin: 5px 0 8px;
+      }
 
-        font-size: 30px;
+      .card-slot {
+        width: 60px;
+        height: 60px;
+      }
+
+      .result-box {
+        min-height: 60px;
+      }
+
+      .completed-area {
+        margin-top: 8px;
+        padding: 5px;
+      }
+
+      .card-title {
+        margin-top: 8px;
+      }
+
+      .card-list {
+        gap: 5px;
+      }
+
+      .card-item {
+        height: 45px;
       }
     }
   </style>
 </head>
 
-
 <body>
 
   <h1>📖 漢字の組み立て（３年国語）</h1>
-
 
   <!-- =========================
        タブ
@@ -402,21 +639,31 @@
        パズルモード
   ========================= -->
 
-  <div
-    class="panel active"
-    id="panel1">
+  <div class="panel active" id="panel1">
 
-    <div
-      style="
-        font-weight:bold;
-        font-size:14px;
-        color:#15803d;
-      ">
+    <!-- 進み具合 -->
+
+    <div class="progress-area">
+
+      <div class="progress-title">
+        🎯 のこり
+      </div>
+
+      <div
+        class="progress-number"
+        id="remaining-count">
+        20セット
+      </div>
+
+    </div>
+
+
+    <div class="instruction">
       カードを２つえらんで 漢字をつくろう！
     </div>
 
 
-    <!-- 選択部分 -->
+    <!-- 選択場所 -->
 
     <div class="puzzle-stage">
 
@@ -450,48 +697,90 @@
           color:#64748b;
           font-weight:bold;
         ">
-        カードをえらんでね
+        カードを２つえらんでね
       </div>
 
     </div>
 
 
-    <!-- 合体 -->
+    <!-- 合体ボタン -->
 
     <button
       class="btn-main"
       id="combine-btn"
       onclick="checkCombine()"
       disabled>
+
       がったいする！
+
     </button>
 
 
-    <!-- ★追加：選択キャンセル -->
+    <!-- 完成した漢字 -->
 
-    <button
-      class="cancel-btn"
-      id="cancel-btn"
-      onclick="cancelSelection()">
-      ↩ 選択をキャンセル
-    </button>
+    <div class="completed-area">
+
+      <div class="completed-title">
+        ⭐ 完成した漢字
+      </div>
+
+      <div
+        class="completed-list"
+        id="completed-list">
+      </div>
+
+    </div>
 
 
-    <!-- カード一覧 -->
+    <!-- カード -->
 
-    <div
-      style="
-        margin-top:15px;
-        font-size:13px;
-        font-weight:bold;
-        color:#166534;
-      ">
-      【カードのリスト】
+    <div class="card-title">
+      【カードをえらぼう】
     </div>
 
     <div
       class="card-list"
       id="card-list">
+    </div>
+
+
+    <!-- リセット -->
+
+    <button
+      class="btn-main btn-reset"
+      onclick="resetGame()">
+
+      🔄 はじめから
+
+    </button>
+
+
+    <!-- コンプリート -->
+
+    <div
+      class="complete-screen"
+      id="complete-screen">
+
+      <div class="complete-icon">
+        🎉
+      </div>
+
+      <div class="complete-title">
+        コンプリート！
+      </div>
+
+      <div class="complete-text">
+        20個の漢字を全部つくったよ！
+      </div>
+
+      <button
+        class="btn-main"
+        onclick="resetGame()">
+
+        もう一度ちょうせん！
+
+      </button>
+
     </div>
 
   </div>
@@ -501,9 +790,7 @@
        クイズモード
   ========================= -->
 
-  <div
-    class="panel"
-    id="panel2">
+  <div class="panel" id="panel2">
 
     <div
       class="quiz-q"
@@ -530,7 +817,9 @@
       id="quiz-next-btn"
       onclick="nextQuiz()"
       style="display:none;">
+
       つぎの問題へ
+
     </button>
 
   </div>
@@ -538,402 +827,737 @@
 
   <script>
 
-    /* =========================================
-       パズルデータ
-    ========================================= */
+    /* =====================================================
+       漢字データ
+    ===================================================== */
 
     const puzzleData = [
 
-      {
-        p1: '木',
-        p2: '反',
-        res: '板',
-        type: 'きへん（木に関係）'
-      },
+      { p1:'言', p2:'寺', res:'詩', type:'ごんべん＋寺' },
 
-      {
-        p1: '氵',
-        p2: '也',
-        res: '池',
-        type: 'さんずい（水に関係）'
-      },
+      { p1:'羽', p2:'白', res:'習', type:'羽＋白' },
 
-      {
-        p1: '亻',
-        p2: '本',
-        res: '体',
-        type: 'にんべん（人の行動に関係）'
-      },
+      { p1:'牛', p2:'勿', res:'物', type:'うしへん＋勿' },
 
-      {
-        p1: '禾',
-        p2: '火',
-        res: '秋',
-        type: 'のぎへん'
-      },
+      { p1:'癶', p2:'豆', res:'登', type:'はつがしら＋豆' },
 
-      {
-        p1: '米',
-        p2: '斗',
-        res: '料',
-        type: 'いとへん'
-      },
+      { p1:'手', p2:'寺', res:'持', type:'てへん＋寺' },
 
-      {
-        p1: '雨',
-        p2: '云',
-        res: '雲',
-        type: 'あめかんむり（天候に関係）'
-      },
+      { p1:'女', p2:'台', res:'始', type:'おんなへん＋台' },
 
-      {
-        p1: '竹',
-        p2: '毛',
-        res: '筆',
-        type: 'たけかんむり（竹の道具に関係）'
-      },
+      { p1:'重', p2:'力', res:'動', type:'重＋力' },
 
-      {
-        p1: '門',
-        p2: '日',
-        res: '間',
-        type: 'もんがまえ（門や戸に関係）'
-      },
+      { p1:'門', p2:'口', res:'問', type:'もんがまえ＋口' },
 
-      {
-        p1: '囗',
-        p2: '玉',
-        res: '国',
-        type: 'くにがまえ（かこむことに関係）'
-      },
+      { p1:'水', p2:'胡', res:'湖', type:'さんずい＋胡' },
 
-      {
-        /* ★ しんにょうは「辶」に統一 */
-        p1: '辶',
-        p2: '首',
-        res: '道',
-        type: 'しんにょう（道や歩くことに関係）'
-      }
+      { p1:'水', p2:'酉', res:'酒', type:'さんずい＋酉' },
+
+      { p1:'木', p2:'目', res:'相', type:'きへん＋目' },
+
+      { p1:'水', p2:'羊', res:'洋', type:'さんずい＋羊' },
+
+      { p1:'禾', p2:'火', res:'秋', type:'のぎへん＋火' },
+
+      { p1:'人', p2:'士', res:'仕', type:'にんべん＋士' },
+
+      { p1:'束', p2:'辶', res:'速', type:'束＋しんにょう' },
+
+      { p1:'木', p2:'黄', res:'横', type:'きへん＋黄' },
+
+      { p1:'金', p2:'失', res:'鉄', type:'かねへん＋失' },
+
+      { p1:'手', p2:'合', res:'拾', type:'てへん＋合' },
+
+      { p1:'糸', p2:'東', res:'練', type:'いとへん＋東' },
+
+      { p1:'木', p2:'直', res:'植', type:'きへん＋直' }
 
     ];
 
 
-    /* =========================================
-       カード一覧
-    ========================================= */
-
-    const cardsPool = [
-
-      '木',
-      '反',
-
-      '氵',
-      '也',
-
-      '亻',
-      '本',
-
-      '禾',
-      '火',
-
-      '米',
-      '斗',
-
-      '雨',
-      '云',
-
-      '竹',
-      '毛',
-
-      '門',
-      '日',
-
-      '囗',
-      '玉',
-
-      /* ★ 1点の「辶」 */
-      '辶',
-
-      '首'
-
-    ];
-
+    /* =====================================================
+       状態
+    ===================================================== */
 
     let sel1 = null;
     let sel2 = null;
 
+    let selectedElement1 = null;
+    let selectedElement2 = null;
 
-    /* =========================================
-       パズル初期化
-    ========================================= */
+    let remainingPuzzles = [];
+
+    let completedKanji = [];
+
+
+    /* =====================================================
+       必要なカードを作る
+       同じカードは必要な枚数だけ用意
+    ===================================================== */
+
+    function createCardPool() {
+
+      const cards = [];
+
+      puzzleData.forEach((puzzle, index) => {
+
+        cards.push({
+          char: puzzle.p1,
+          puzzleIndex: index,
+          side: 1
+        });
+
+        cards.push({
+          char: puzzle.p2,
+          puzzleIndex: index,
+          side: 2
+        });
+
+      });
+
+      return cards;
+    }
+
+
+    /* =====================================================
+       カードをシャッフル
+    ===================================================== */
+
+    function shuffle(array) {
+
+      const arr = [...array];
+
+      for (
+        let i = arr.length - 1;
+        i > 0;
+        i--
+      ) {
+
+        const j =
+          Math.floor(
+            Math.random() * (i + 1)
+          );
+
+        [
+          arr[i],
+          arr[j]
+        ] =
+        [
+          arr[j],
+          arr[i]
+        ];
+
+      }
+
+      return arr;
+    }
+
+
+    /* =====================================================
+       ゲーム開始
+    ===================================================== */
 
     function initPuzzle() {
 
       sel1 = null;
       sel2 = null;
 
+      selectedElement1 = null;
+      selectedElement2 = null;
 
-      document.getElementById('slot1').textContent = '？';
+      remainingPuzzles =
+        puzzleData.map(
+          (_, index) => index
+        );
 
-      document.getElementById('slot2').textContent = '？';
+      completedKanji = [];
 
+      resetSlots();
+
+      updateProgress();
+
+      updateCompletedList();
 
       document
-        .getElementById('slot1')
-        .classList
-        .remove('filled');
+        .getElementById('result-box')
+        .innerHTML = `
+          <div style="
+            color:#64748b;
+            font-weight:bold;
+          ">
+            カードを２つえらんでね
+          </div>
+        `;
 
       document
-        .getElementById('slot2')
-        .classList
-        .remove('filled');
-
+        .getElementById('complete-screen')
+        .classList.remove('show');
 
       document
-        .getElementById('combine-btn')
-        .disabled = true;
+        .getElementById('card-list')
+        .style.display = 'grid';
+
+      createCards();
+
+    }
 
 
-      const listContainer =
-        document.getElementById('card-list');
+    /* =====================================================
+       カード表示
+    ===================================================== */
 
+    function createCards() {
 
-      listContainer.innerHTML = '';
+      const container =
+        document.getElementById(
+          'card-list'
+        );
 
+      container.innerHTML = '';
 
-      cardsPool.forEach(char => {
+      const cards =
+        shuffle(
+          createCardPool()
+        );
+
+      cards.forEach(card => {
+
+        /*
+          すでに完成した問題のカードは
+          表示しない
+        */
+
+        if (
+          !remainingPuzzles.includes(
+            card.puzzleIndex
+          )
+        ) {
+          return;
+        }
 
         const item =
           document.createElement('div');
 
+        item.className =
+          'card-item';
 
-        item.className = 'card-item';
+        item.textContent =
+          card.char;
 
-        item.textContent = char;
+        /*
+          カードの正体を
+          datasetに保存
+        */
 
+        item.dataset.puzzleIndex =
+          card.puzzleIndex;
 
-        item.onclick = () => {
+        item.dataset.side =
+          card.side;
 
-          selectCard(char, item);
+        item.onclick = () =>
+          selectCard(
+            card,
+            item
+          );
 
-        };
-
-
-        listContainer.appendChild(item);
+        container.appendChild(item);
 
       });
 
     }
 
 
-    /* =========================================
+    /* =====================================================
        カード選択
-    ========================================= */
+    ===================================================== */
 
-    function selectCard(char, element) {
+    function selectCard(
+      card,
+      element
+    ) {
 
-      /* 1枚目 */
+      /*
+        すでに選択しているカードを
+        もう一度押したら解除
+      */
 
-      if (!sel1) {
+      if (
+        element === selectedElement1
+      ) {
 
-        sel1 = char;
+        element.classList.remove(
+          'selected'
+        );
 
-        element.classList.add('selected');
-
+        sel1 = null;
+        selectedElement1 = null;
 
         document
           .getElementById('slot1')
-          .textContent = char;
-
+          .textContent = '？';
 
         document
           .getElementById('slot1')
-          .classList
-          .add('filled');
+          .classList.remove(
+            'filled'
+          );
 
+        updateCombineButton();
 
         return;
       }
 
 
-      /* 2枚目 */
+      if (
+        element === selectedElement2
+      ) {
 
-      if (!sel2) {
-
-        /*
-          すでに選択されているカードは
-          もう一度選ばない
-        */
-
-        if (
-          element.classList.contains('selected')
-        ) {
-          return;
-        }
-
-
-        sel2 = char;
-
-        element.classList.add('selected');
-
-
-        document
-          .getElementById('slot2')
-          .textContent = char;
-
-
-        document
-          .getElementById('slot2')
-          .classList
-          .add('filled');
-
-
-        document
-          .getElementById('combine-btn')
-          .disabled = false;
-
-      }
-
-    }
-
-
-    /* =========================================
-       ★ 選択キャンセル
-    ========================================= */
-
-    function cancelSelection() {
-
-      sel1 = null;
-      sel2 = null;
-
-
-      /* スロットを元に戻す */
-
-      document.getElementById('slot1').textContent = '？';
-
-      document.getElementById('slot2').textContent = '？';
-
-
-      document
-        .getElementById('slot1')
-        .classList
-        .remove('filled');
-
-      document
-        .getElementById('slot2')
-        .classList
-        .remove('filled');
-
-
-      /* 選択中カードの黄色を全部解除 */
-
-      document
-        .querySelectorAll('.card-item.selected')
-        .forEach(item => {
-
-          item.classList.remove('selected');
-
-        });
-
-
-      /* 合体ボタンを無効化 */
-
-      document
-        .getElementById('combine-btn')
-        .disabled = true;
-
-
-      /* メッセージも戻す */
-
-      document
-        .getElementById('result-box')
-        .innerHTML = `
-          <div
-            style="
-              color:#64748b;
-              font-weight:bold;
-            ">
-            カードをえらんでね
-          </div>
-        `;
-
-    }
-
-
-    /* =========================================
-       合体判定
-    ========================================= */
-
-    function checkCombine() {
-
-      const match =
-        puzzleData.find(item =>
-
-          (
-            item.p1 === sel1 &&
-            item.p2 === sel2
-          )
-          ||
-          (
-            item.p1 === sel2 &&
-            item.p2 === sel1
-          )
-
+        element.classList.remove(
+          'selected'
         );
 
+        sel2 = null;
+        selectedElement2 = null;
 
-      const resBox =
-        document.getElementById('result-box');
+        document
+          .getElementById('slot2')
+          .textContent = '？';
 
+        document
+          .getElementById('slot2')
+          .classList.remove(
+            'filled'
+          );
 
-      if (match) {
+        updateCombineButton();
 
-        resBox.innerHTML = `
-
-          <div class="result-kanji">
-            ${match.res}
-          </div>
-
-          <div class="result-desc">
-            ⭕️ 大正解！
-            【${match.type}】
-          </div>
-
-        `;
-
-      } else {
-
-        resBox.innerHTML = `
-
-          <div
-            style="
-              color:#dc2626;
-              font-weight:bold;
-            ">
-            ❌ その組み合わせの漢字はないよ
-          </div>
-
-        `;
-
+        return;
       }
 
 
       /*
-        2.5秒後に次の問題へ
+        1枚目
       */
 
-      setTimeout(() => {
+      if (!sel1) {
 
-        initPuzzle();
+        sel1 = card;
 
-      }, 2500);
+        selectedElement1 =
+          element;
+
+        element.classList.add(
+          'selected'
+        );
+
+        const slot1 =
+          document.getElementById(
+            'slot1'
+          );
+
+        slot1.textContent =
+          card.char;
+
+        slot1.classList.add(
+          'filled'
+        );
+
+        updateCombineButton();
+
+        return;
+      }
+
+
+      /*
+        同じカードを
+        2枚目には選べない
+      */
+
+      if (
+        element === selectedElement1
+      ) {
+        return;
+      }
+
+
+      /*
+        2枚目
+      */
+
+      if (!sel2) {
+
+        sel2 = card;
+
+        selectedElement2 =
+          element;
+
+        element.classList.add(
+          'selected'
+        );
+
+        const slot2 =
+          document.getElementById(
+            'slot2'
+          );
+
+        slot2.textContent =
+          card.char;
+
+        slot2.classList.add(
+          'filled'
+        );
+
+        updateCombineButton();
+
+        return;
+      }
 
     }
 
 
-    /* =========================================
-       クイズデータ
-    ========================================= */
+    /* =====================================================
+       合体ボタン
+    ===================================================== */
+
+    function updateCombineButton() {
+
+      document
+        .getElementById(
+          'combine-btn'
+        )
+        .disabled =
+        !(sel1 && sel2);
+
+    }
+
+
+    /* =====================================================
+       答え合わせ
+    ===================================================== */
+
+    function checkCombine() {
+
+      if (!sel1 || !sel2) {
+        return;
+      }
+
+
+      /*
+        2枚のカードが
+        同じ問題の組み合わせか確認
+      */
+
+      const samePuzzle =
+        sel1.puzzleIndex ===
+        sel2.puzzleIndex;
+
+
+      const resBox =
+        document.getElementById(
+          'result-box'
+        );
+
+
+      if (samePuzzle) {
+
+        const puzzle =
+          puzzleData[
+            sel1.puzzleIndex
+          ];
+
+
+        /*
+          正解！
+        */
+
+        resBox.innerHTML = `
+          <div class="result-kanji">
+            ${puzzle.res}
+          </div>
+
+          <div class="result-desc">
+            ⭕ 大正解！
+            【${puzzle.type}】
+          </div>
+        `;
+
+
+        /*
+          その問題を
+          残り問題から削除
+        */
+
+        remainingPuzzles =
+          remainingPuzzles.filter(
+            index =>
+              index !==
+              sel1.puzzleIndex
+          );
+
+
+        /*
+          完成漢字に追加
+        */
+
+        completedKanji.push(
+          puzzle.res
+        );
+
+
+        updateProgress();
+
+        updateCompletedList();
+
+
+        /*
+          選択した2枚を消す
+        */
+
+        if (selectedElement1) {
+
+          selectedElement1.remove();
+
+        }
+
+        if (selectedElement2) {
+
+          selectedElement2.remove();
+
+        }
+
+
+        /*
+          選択をリセット
+        */
+
+        setTimeout(() => {
+
+          resetSlots();
+
+          /*
+            すべて完成したか
+          */
+
+          if (
+            remainingPuzzles.length === 0
+          ) {
+
+            showComplete();
+
+          } else {
+
+            resBox.innerHTML = `
+              <div style="
+                color:#64748b;
+                font-weight:bold;
+              ">
+                つぎの漢字をつくろう！
+              </div>
+            `;
+
+          }
+
+        }, 1200);
+
+
+      } else {
+
+        /*
+          不正解
+        */
+
+        resBox.innerHTML = `
+          <div style="
+            color:#dc2626;
+            font-weight:bold;
+            font-size:18px;
+          ">
+            ❌ ちがうよ！
+          </div>
+
+          <div style="
+            color:#64748b;
+            font-weight:bold;
+            margin-top:5px;
+          ">
+            この２つの組み合わせでは
+            漢字はできません。
+          </div>
+        `;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       選択解除
+    ===================================================== */
+
+    function resetSlots() {
+
+      sel1 = null;
+      sel2 = null;
+
+      selectedElement1 = null;
+      selectedElement2 = null;
+
+
+      document
+        .getElementById('slot1')
+        .textContent = '？';
+
+      document
+        .getElementById('slot2')
+        .textContent = '？';
+
+
+      document
+        .getElementById('slot1')
+        .classList.remove(
+          'filled'
+        );
+
+      document
+        .getElementById('slot2')
+        .classList.remove(
+          'filled'
+        );
+
+
+      document
+        .getElementById(
+          'combine-btn'
+        )
+        .disabled = true;
+
+
+      /*
+        残っているカードの
+        選択表示を解除
+      */
+
+      document
+        .querySelectorAll(
+          '.card-item.selected'
+        )
+        .forEach(
+          element =>
+            element.classList.remove(
+              'selected'
+            )
+        );
+
+    }
+
+
+    /* =====================================================
+       残り問題数
+    ===================================================== */
+
+    function updateProgress() {
+
+      const count =
+        remainingPuzzles.length;
+
+      document
+        .getElementById(
+          'remaining-count'
+        )
+        .textContent =
+        `${count}セット`;
+
+    }
+
+
+    /* =====================================================
+       完成した漢字
+    ===================================================== */
+
+    function updateCompletedList() {
+
+      const container =
+        document.getElementById(
+          'completed-list'
+        );
+
+      container.innerHTML = '';
+
+      completedKanji.forEach(
+        kanji => {
+
+          const item =
+            document.createElement(
+              'div'
+            );
+
+          item.className =
+            'completed-kanji';
+
+          item.textContent =
+            kanji;
+
+          container.appendChild(
+            item
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       コンプリート
+    ===================================================== */
+
+    function showComplete() {
+
+      document
+        .getElementById(
+          'complete-screen'
+        )
+        .classList.add(
+          'show'
+        );
+
+      document
+        .getElementById(
+          'card-list'
+        )
+        .style.display = 'none';
+
+      document
+        .getElementById(
+          'combine-btn'
+        )
+        .style.display = 'none';
+
+    }
+
+
+    /* =====================================================
+       リセット
+    ===================================================== */
+
+    function resetGame() {
+
+      document
+        .getElementById(
+          'combine-btn'
+        )
+        .style.display = 'block';
+
+      initPuzzle();
+
+    }
+
+
+    /* =====================================================
+       クイズモード
+    ===================================================== */
 
     const quizData = [
 
@@ -950,7 +1574,6 @@
         ans: 0
       },
 
-
       {
         q:
           "「氵（さんずい）」のつく漢字（油・港・池など）は、何に関係があるでしょう？",
@@ -963,7 +1586,6 @@
 
         ans: 1
       },
-
 
       {
         q:
@@ -978,7 +1600,6 @@
         ans: 2
       },
 
-
       {
         q:
           "「動」「親」の右側にある「力」や「頁（おおがい）」は何とよぶでしょう？",
@@ -991,7 +1612,6 @@
 
         ans: 1
       },
-
 
       {
         q:
@@ -1012,10 +1632,6 @@
     let currentQ = 0;
 
 
-    /* =========================================
-       クイズ初期化
-    ========================================= */
-
     function initQuiz() {
 
       currentQ = 0;
@@ -1025,67 +1641,66 @@
     }
 
 
-    /* =========================================
-       クイズ表示
-    ========================================= */
-
     function showQuiz() {
 
       const qData =
         quizData[currentQ];
 
 
-      document.getElementById('quiz-q')
+      document
+        .getElementById('quiz-q')
         .textContent =
         `Q${currentQ + 1}. ${qData.q}`;
 
 
       const optsContainer =
-        document.getElementById('quiz-opts');
-
+        document.getElementById(
+          'quiz-opts'
+        );
 
       optsContainer.innerHTML = '';
 
 
-      document.getElementById('quiz-result')
+      document
+        .getElementById(
+          'quiz-result'
+        )
         .style.display = 'none';
 
 
-      document.getElementById('quiz-next-btn')
+      document
+        .getElementById(
+          'quiz-next-btn'
+        )
         .style.display = 'none';
 
 
-      qData.opts.forEach((opt, idx) => {
+      qData.opts.forEach(
+        (opt, idx) => {
 
-        const btn =
-          document.createElement('button');
+          const btn =
+            document.createElement(
+              'button'
+            );
 
+          btn.className =
+            'quiz-opt-btn';
 
-        btn.className =
-          'quiz-opt-btn';
+          btn.textContent =
+            `${idx + 1}. ${opt}`;
 
+          btn.onclick = () =>
+            checkQuiz(idx);
 
-        btn.textContent =
-          `${idx + 1}. ${opt}`;
+          optsContainer.appendChild(
+            btn
+          );
 
-
-        btn.onclick = () => {
-
-          checkQuiz(idx);
-
-        };
-
-
-        optsContainer.appendChild(btn);
-
-      });
+        }
+      );
 
     }
 
-
-    /* =========================================
-       クイズ判定
-    ========================================= */
 
     function checkQuiz(idx) {
 
@@ -1094,100 +1709,102 @@
 
 
       const resBox =
-        document.getElementById('quiz-result');
+        document.getElementById(
+          'quiz-result'
+        );
 
 
-      resBox.style.display = 'flex';
+      resBox.style.display =
+        'flex';
 
 
-      if (idx === qData.ans) {
+      if (
+        idx === qData.ans
+      ) {
 
         resBox.innerHTML = `
-
-          <div
-            style="
-              color:#16a34a;
-              font-weight:bold;
-              font-size:20px;
-            ">
-            ⭕️ 大正解！
+          <div style="
+            color:#16a34a;
+            font-weight:bold;
+            font-size:20px;
+          ">
+            ⭕ 大正解！
           </div>
-
         `;
 
       } else {
 
         resBox.innerHTML = `
-
-          <div
-            style="
-              color:#dc2626;
-              font-weight:bold;
-              font-size:18px;
-            ">
-
+          <div style="
+            color:#dc2626;
+            font-weight:bold;
+            font-size:18px;
+          ">
             ❌ 残念！
             正解は
             「${qData.opts[qData.ans]}」
             です
-
           </div>
-
         `;
 
       }
 
 
       document
-        .getElementById('quiz-next-btn')
-        .style.display = 'block';
+        .getElementById(
+          'quiz-next-btn'
+        )
+        .style.display =
+        'block';
 
     }
 
 
-    /* =========================================
-       次のクイズ
-    ========================================= */
-
     function nextQuiz() {
 
       currentQ =
-        (currentQ + 1) % quizData.length;
-
+        (currentQ + 1) %
+        quizData.length;
 
       showQuiz();
 
     }
 
 
-    /* =========================================
+    /* =====================================================
        タブ切り替え
-    ========================================= */
+    ===================================================== */
 
     function switchTab(num) {
 
       document
         .getElementById('tab1')
-        .classList
-        .toggle('active', num === 1);
-
+        .classList.toggle(
+          'active',
+          num === 1
+        );
 
       document
         .getElementById('tab2')
-        .classList
-        .toggle('active', num === 2);
+        .classList.toggle(
+          'active',
+          num === 2
+        );
 
 
       document
         .getElementById('panel1')
-        .classList
-        .toggle('active', num === 1);
-
+        .classList.toggle(
+          'active',
+          num === 1
+        );
 
       document
         .getElementById('panel2')
-        .classList
-        .toggle('active', num === 2);
+        .classList.toggle(
+          'active',
+          num === 2
+        );
 
 
       if (num === 1) {
@@ -1206,9 +1823,9 @@
     }
 
 
-    /* =========================================
+    /* =====================================================
        起動
-    ========================================= */
+    ===================================================== */
 
     window.onload = () => {
 
